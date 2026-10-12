@@ -1,4 +1,4 @@
-import { person, site, socials } from '@/data/site';
+import { credits, person, site, socials } from '@/data/site';
 
 /** What kind of page the JSON-LD describes. */
 export type PageKind = 'home' | 'profile' | 'page';
@@ -60,6 +60,15 @@ export function structuredData(opts: {
         knowsAbout: person.knowsAbout,
         memberOf: person.memberOf.map((org) => ({ '@type': 'Organization', ...org })),
         sameAs: [...socials.map((s) => s.href), ...person.records],
+        // Followers per platform, each tied to the profile it counts.
+        interactionStatistic: socials
+          .filter((s) => s.followers)
+          .map((s) => ({
+            '@type': 'InteractionCounter',
+            interactionType: { '@type': 'FollowAction' },
+            userInteractionCount: s.followers,
+            interactionService: { '@type': 'WebSite', name: s.label, url: s.href },
+          })),
       },
       {
         '@type': 'ImageObject',
@@ -73,6 +82,25 @@ export function structuredData(opts: {
         copyrightNotice: `© ${new Date().getFullYear()} ${site.name}. All rights reserved.`,
       },
       page,
+      // The biography lists the credits; each links to IMDb and TMDB and names
+      // Austin's role, so knowledge graphs connect him to his work.
+      ...(opts.kind === 'profile' ? credits.map(creditNode) : []),
     ],
+  };
+}
+
+function creditNode(c: (typeof credits)[number]) {
+  const [start, end = start] = c.years;
+  return {
+    '@type': c.type,
+    name: c.title,
+    sameAs: [`https://www.imdb.com/title/${c.imdb}/`, `https://www.themoviedb.org/${c.tmdb}`],
+    actor: {
+      '@type': 'PerformanceRole',
+      actor: { '@id': personId },
+      characterName: c.character,
+      startDate: String(start),
+      endDate: String(end),
+    },
   };
 }

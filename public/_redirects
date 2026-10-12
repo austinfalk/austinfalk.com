@@ -4,9 +4,10 @@
 # Domain-level redirects (www -> apex) can't live here; they're configured at
 # Cloudflare's edge.
 
-# Old WordPress pages. /about is a real page on the new site.
-/portfolio      /about               301
-/portfolio/     /about               301
+# Old WordPress pages. /about is a real page on the new site; the old
+# portfolio (credits) lands on its credits heading.
+/portfolio      /about#movies-and-tv-shows   301
+/portfolio/     /about#movies-and-tv-shows   301
 /contact        /                    301
 /contact/       /                    301
 

@@ -4,9 +4,20 @@
  * "who is" queries to and the one LLMs are most likely to quote.
  */
 import { Content as Bio, frontmatter } from '@/content/about.md';
+import bioSource from '@/content/about.md?raw';
 import Prose from '@/components/Prose.astro';
 import SplitLayout from '@/layouts/SplitLayout.astro';
-import { site } from '@/data/site';
+import { credits, site } from '@/data/site';
+
+// The structured data's credits (src/data/site.ts) must match the list in the
+// copy: same titles, same order. Fail the build rather than publish a mismatch.
+const listed = [...bioSource.matchAll(/^- _(.+?)_/gm)].map((m) => m[1]);
+const expected = credits.map((c) => c.title);
+if (expected.some((title, i) => listed[i] !== title)) {
+  throw new Error(
+    `Credits in about.md (${listed.join(', ')}) don't match src/data/site.ts (${expected.join(', ')}).`,
+  );
+}
 ---
 
 <SplitLayout

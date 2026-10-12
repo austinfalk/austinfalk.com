@@ -18,7 +18,7 @@ Raised in Arizona, Falk started acting at a young age in school and church produ
 
 Falk is a member of SAG-AFTRA and UBCP/ACTRA and has trained in drama, comedy, and improvisation. He has worked with directors such as Wally Pfister, Fred Savage, and Max Winkler.
 
-### Selected credits
+### Movies and TV shows
 
 - _School Spirits_ (Paramount+, 2023–2026), Jason
 - _2 Broke Girls_ (CBS, 2015), Nash

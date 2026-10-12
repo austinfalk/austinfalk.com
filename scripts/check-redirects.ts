@@ -28,8 +28,8 @@ const cases: Case[] = [
   { path: '/about/', status: 301, location: '/about' },
   { path: '/about/?ref=x', status: 301, location: '/about?ref=x' },
   // Old WordPress pages
-  { path: '/portfolio', status: 301, location: '/about' },
-  { path: '/portfolio/', status: 301, location: '/about' },
+  { path: '/portfolio', status: 301, location: '/about#movies-and-tv-shows' },
+  { path: '/portfolio/', status: 301, location: '/about#movies-and-tv-shows' },
   { path: '/contact', status: 301, location: '/' },
   { path: '/contact/', status: 301, location: '/' },
   { path: '/sitemap.xml', status: 301, location: '/sitemap-index.xml' },
