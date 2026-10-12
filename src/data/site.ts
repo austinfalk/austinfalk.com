@@ -56,6 +56,7 @@ export const person = {
     'Acting',
     'Film and television',
     'Content creation',
+    'Lifestyle',
     'Mergers and acquisitions',
     'Private equity',
     'Software development',

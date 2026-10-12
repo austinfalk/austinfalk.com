@@ -1,1 +1,1 @@
-Austin Falk is an actor, creator, and M&A advisor, known for School Spirits and 2 Broke Girls. He shares his journey across entertainment, finance, and technology with his followers. A natural storyteller, Falk approaches his work with authenticity and purpose.
+Austin Falk is an actor, creator, and M&A advisor, known for School Spirits and 2 Broke Girls. He shares his journey across entertainment, finance, technology, and fitness with his followers. A natural storyteller, Falk approaches his work with authenticity and purpose.

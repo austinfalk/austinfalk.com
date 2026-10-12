@@ -5,10 +5,10 @@ heading: About Austin Falk
 # Date of the last real content change (YYYY-MM-DD); update when you edit.
 updated: 2026-10-12
 # Meta description for this page (140–160 characters).
-description: Biography of Austin Falk, an actor known for School Spirits and 2 Broke Girls, creator on Instagram, TikTok, and X, and M&A advisor at Forge Origination.
+description: Biography of Austin Falk, an actor known for School Spirits and 2 Broke Girls, lifestyle and fitness creator, and M&A advisor at Forge Origination.
 ---
 
-Austin Falk is an actor, creator, and M&A advisor. He is known for recurring roles on School Spirits (Paramount+) and 2 Broke Girls (CBS). Falk is a creator on Instagram, TikTok, and X, sharing his experiences with his followers.
+Austin Falk is an actor, creator, and M&A advisor. He is known for recurring roles on School Spirits (Paramount+) and 2 Broke Girls (CBS). Falk is a lifestyle and fitness creator on Instagram, TikTok, and X, sharing his experiences with his followers.
 
 ## Career
 
@@ -30,7 +30,7 @@ Falk is a member of SAG-AFTRA and UBCP/ACTRA and has trained in drama, comedy, a
 Commercial work includes campaigns for Blue Cross Blue Shield and American
 Family Insurance.
 
-More than 50,000 followers across Instagram, TikTok, and X continue to watch Falk share his life as a content creator.
+More than 50,000 followers across Instagram, TikTok, X, and Facebook keep up with Falk's daily life and training.
 
 ## Finance
 
