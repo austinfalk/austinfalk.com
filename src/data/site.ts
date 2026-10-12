@@ -7,17 +7,22 @@ export const site = {
   title: 'Austin Falk | Actor, Creator, M&A Advisor',
   /** Meta description, about 155 characters. */
   description:
-    'Austin Falk is an actor, creator, and M&A advisor. Known for School Spirits and 2 Broke Girls, he splits his time between Los Angeles and Vancouver.',
+    'Austin Falk is an actor, creator, and M&A advisor, known for School Spirits and 2 Broke Girls, who shares his journey with more than 50,000 followers.',
 } as const;
 
-export type SocialKey = 'instagram' | 'x' | 'linkedin' | 'tiktok' | 'github' | 'facebook' | 'imdb';
+export type SocialKey = 'instagram' | 'tiktok' | 'x' | 'github' | 'linkedin' | 'facebook' | 'imdb';
 
+/**
+ * Profiles in Austin's preferred order, used everywhere they're listed (footer,
+ * rel="me", structured data sameAs, Markdown and llms.txt): Instagram, TikTok,
+ * X, GitHub, LinkedIn, Facebook, IMDb.
+ */
 export const socials: { key: SocialKey; label: string; href: string }[] = [
   { key: 'instagram', label: 'Instagram', href: 'https://instagram.com/austinfalk' },
-  { key: 'x', label: 'X', href: 'https://x.com/austinfalk' },
-  { key: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/austinfalk' },
   { key: 'tiktok', label: 'TikTok', href: 'https://www.tiktok.com/@theaustinfalk' },
+  { key: 'x', label: 'X', href: 'https://x.com/austinfalk' },
   { key: 'github', label: 'GitHub', href: 'https://github.com/austinfalk' },
+  { key: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/austinfalk' },
   { key: 'facebook', label: 'Facebook', href: 'https://facebook.com/austinfalk' },
   { key: 'imdb', label: 'IMDb', href: 'https://www.imdb.com/name/nm6113984/' },
 ];
