@@ -8,7 +8,7 @@ updated: 2026-10-12
 description: Biography of Austin Falk, an actor known for School Spirits and 2 Broke Girls, lifestyle and fitness creator, and M&A advisor at Forge Origination.
 ---
 
-Austin Falk is an actor, creator, and M&A advisor. He is known for recurring roles on School Spirits (Paramount+) and 2 Broke Girls (CBS). Falk is a lifestyle and fitness creator on Instagram, TikTok, and X, sharing his experiences with his followers.
+Austin Falk is an actor, creator, and M&A advisor. He is known for recurring roles as Jason on School Spirits (Paramount+) and Nash on 2 Broke Girls (CBS). Falk is a lifestyle and fitness creator on Instagram, TikTok, and X, sharing his experiences with his followers.
 
 ## Career
 
