@@ -1,0 +1,30 @@
+# Permanent redirects, applied by Cloudflare before any page is served.
+# Format: <from>  <to>  <status>. The first matching rule wins, so specific
+# rules go above the general trailing-slash rule at the bottom.
+# Domain-level redirects (www -> apex) can't live here; they're configured at
+# Cloudflare's edge.
+
+# Old WordPress pages. /about is a real page on the new site.
+/portfolio      /about               301
+/portfolio/     /about               301
+/contact        /                    301
+/contact/       /                    301
+
+# Old sitemap URL (still in Search Console and Bing).
+/sitemap.xml    /sitemap-index.xml   301
+
+# Legacy WordPress endpoints.
+/wp-login.php   /                    301
+/xmlrpc.php     /                    301
+/feed           /                    301
+/feed/          /                    301
+/wp-admin       /                    301
+/wp-admin/      /                    301
+
+# Dynamic rules (splats) go after all static ones. In production a splat
+# doesn't match an empty remainder, so /wp-admin/ needs its own rule above.
+/wp-admin/*     /                    301
+
+# No trailing slashes anywhere: /about/ -> /about, query string kept.
+# Must stay last.
+/*/             /:splat              301

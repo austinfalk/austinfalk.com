@@ -1,0 +1,105 @@
+---
+import '@/styles/global.css';
+import { Font, getImage } from 'astro:assets';
+import ogSource from '@/assets/og.jpeg';
+import profile from '@/assets/profile.jpeg';
+import { site, socials } from '@/data/site';
+import { type PageKind, structuredData } from '@/lib/structured-data';
+
+interface Props {
+  /** Page title; the home page uses the site name alone. */
+  title?: string;
+  description?: string;
+  /** Keep the page out of search results (404). */
+  noindex?: boolean;
+  /** What the page is, for structured data. */
+  kind?: PageKind;
+  /** Path of this page's Markdown version for agents, e.g. "/index.md". */
+  markdown?: string;
+  /** Last meaningful content change, ISO date. */
+  modified?: string;
+}
+
+const {
+  title,
+  description = site.description,
+  noindex = false,
+  kind = 'page',
+  markdown,
+  modified,
+} = Astro.props;
+
+// Titles that already include the name ("About Austin Falk") skip the suffix.
+const pageTitle = !title
+  ? site.title
+  : title.includes(site.name)
+    ? title
+    : `${title} | ${site.name}`;
+// Pages build as files (about.html), so drop the filename to get the public
+// URL: /index.html -> /, /about.html -> /about.
+const canonical = new URL(Astro.url.pathname.replace(/(index)?\.html$/, ''), site.url).href;
+
+// og.jpeg is the portrait cropped by hand to the card's shape (hair to chin);
+// no automatic crop of a 3:4 portrait frames the face at 1.9:1.
+const ogImage = await getImage({ src: ogSource, width: 1200, height: 630, format: 'jpg' });
+const personImage = await getImage({ src: profile, width: 1080, height: 1080, format: 'jpg' });
+const ogImageAlt = 'Portrait of Austin Falk';
+
+const jsonLd = structuredData({
+  kind,
+  url: canonical,
+  title: pageTitle,
+  description,
+  image: new URL(personImage.src, site.url).href,
+  modified,
+});
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <Font cssVariable="--font-outfit" preload />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {markdown && <link rel="alternate" type="text/markdown" href={markdown} />}
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0c0b09" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage.src, site.url).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="profile:first_name" content="Austin" />
+    <meta property="profile:last_name" content="Falk" />
+    <meta property="profile:username" content="austinfalk" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@austinfalk" />
+    <meta name="twitter:creator" content="@austinfalk" />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    {/* Identity links: tell crawlers and IndieWeb tools these profiles are Austin's. */}
+    {socials.map((s) => (
+      <link rel="me" href={s.href} />
+    ))}
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="min-h-dvh antialiased">
+    <slot />
+  </body>
+</html>

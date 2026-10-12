@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "austinfalk-com",
+  // The account comes from CLOUDFLARE_ACCOUNT_ID: a gitignored .env locally,
+  // a build variable in Workers Builds. Kept out of the repo on purpose.
+  "compatibility_date": "2026-09-07",
+  // Static-only site: no Worker script, Cloudflare serves ./dist directly.
+  // `astro build` writes _redirects and _headers into dist for Cloudflare to honor.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    // Fallback only: Cloudflare's own slash handling redirects with a 307.
+    // The permanent 301s live in public/_redirects and run first.
+    "html_handling": "drop-trailing-slash",
+  },
+}

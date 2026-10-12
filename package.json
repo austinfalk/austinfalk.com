@@ -1,0 +1,51 @@
+{
+  "name": "austinfalk-com",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.2",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro build && wrangler dev",
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:redirects": "bun scripts/check-redirects.ts",
+    "shot": "bun scripts/screenshot.ts",
+    "deploy": "astro build && wrangler deploy",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.0.1",
+    "@astrojs/sitemap": "^3.7.4",
+    "@base-ui/react": "^1.9.0",
+    "@hugeicons/core-free-icons": "^4.3.5",
+    "@hugeicons/react": "^1.1.10",
+    "astro": "^7.3.1",
+    "class-variance-authority": "^0.7.1",
+    "cn": "^0.4.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/bun": "^1.4.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "shadcn": "^4.21.4",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6",
+    "wrangler": "^4.135.0"
+  },
+  "trustedDependencies": [
+    "@tailwindcss/oxide",
+    "esbuild",
+    "sharp",
+    "workerd"
+  ]
+}

@@ -1,0 +1,50 @@
+---
+/**
+ * Home: on desktop the name and intro sit at the foot of the first screen
+ * like a title card, then the pursuits scroll beneath.
+ */
+import { Content as Intro } from '@/content/intro.md';
+import Prose from '@/components/Prose.astro';
+import SplitLayout from '@/layouts/SplitLayout.astro';
+import { site } from '@/data/site';
+import { getPursuits } from '@/lib/content';
+
+const pursuits = await getPursuits();
+---
+
+<SplitLayout kind="home" markdown="/index.md">
+  <header class="flex flex-col gap-[clamp(1.5rem,2.5vw,3rem)] pt-12 pb-20 md:min-h-dvh md:justify-end md:pt-[var(--gutter)] md:pb-[var(--gutter)]">
+    <h1 class="text-[clamp(3.25rem,7.5vw,10rem)] leading-[0.88] font-bold tracking-tighter">
+      {site.name}
+    </h1>
+    <Prose class="max-w-[34ch] text-[clamp(1.25rem,1.75vw,2rem)] leading-snug">
+      <Intro />
+    </Prose>
+    <a
+      href="/about"
+      class="self-start text-[clamp(1rem,1.1vw,1.25rem)] text-muted-foreground underline underline-offset-4 transition-colors hover:text-primary"
+    >
+      Full biography
+    </a>
+  </header>
+
+  <main class="flex flex-col gap-[clamp(4.5rem,9vw,11rem)] py-[clamp(2rem,6vw,8rem)]">
+    {pursuits.map((p) => (
+      <section
+        id={p.id}
+        aria-labelledby={`${p.id}-title`}
+        class="flex scroll-mt-8 flex-col gap-[clamp(1rem,1.5vw,1.75rem)]"
+      >
+        <h2
+          id={`${p.id}-title`}
+          class="text-[clamp(2.25rem,4.5vw,6rem)] leading-[0.9] font-bold tracking-tighter"
+        >
+          {p.title}
+        </h2>
+        <Prose class="max-w-[42ch] text-[clamp(1.0625rem,1.2vw,1.375rem)] leading-relaxed text-muted-foreground">
+          <p.Content />
+        </Prose>
+      </section>
+    ))}
+  </main>
+</SplitLayout>

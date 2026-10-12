@@ -1,0 +1,23 @@
+# Weekly dependency updates, grouped so each ecosystem is one pull request.
+# Each PR runs CI and gets its own Cloudflare Preview URL.
+version: 2
+updates:
+  - package-ecosystem: bun
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      dependencies:
+        patterns: ['*']
+    ignore:
+      # astro check doesn't support TypeScript 7 yet (see AGENTS.md).
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']

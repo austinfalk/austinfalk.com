@@ -1,0 +1,39 @@
+---
+/**
+ * Biography. The long-form, factual page: the one search engines send
+ * "who is" queries to and the one LLMs are most likely to quote.
+ */
+import { Content as Bio, frontmatter } from '@/content/about.md';
+import Prose from '@/components/Prose.astro';
+import SplitLayout from '@/layouts/SplitLayout.astro';
+import { site } from '@/data/site';
+---
+
+<SplitLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  kind="profile"
+  markdown="/about.md"
+  modified={frontmatter.updated && new Date(frontmatter.updated).toISOString().slice(0, 10)}
+>
+  <header class="flex flex-col gap-[clamp(1.5rem,2.5vw,3rem)] pt-12 md:pt-[var(--gutter)]">
+    <a
+      href="/"
+      class="self-start text-lg font-bold tracking-tight transition-colors hover:text-primary"
+    >
+      {site.name}
+    </a>
+    <h1 class="text-[clamp(2.75rem,5.5vw,7.5rem)] leading-[0.9] font-bold tracking-tighter">
+      {frontmatter.heading}
+    </h1>
+  </header>
+
+  <main class="py-[clamp(2.5rem,5vw,6rem)]">
+    <Prose
+      variant="long"
+      class="max-w-[60ch] text-[clamp(1.0625rem,1.2vw,1.375rem)] leading-relaxed"
+    >
+      <Bio />
+    </Prose>
+  </main>
+</SplitLayout>

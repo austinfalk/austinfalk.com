@@ -1,0 +1,34 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+bun-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# environment (wrangler reads CLOUDFLARE_ACCOUNT_ID from .env)
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+
+# cloudflare / wrangler
+.wrangler/
+
+# editor / os
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# personal agent settings (shared settings live in .claude/settings.json)
+CLAUDE.local.md
+.claude/settings.local.json
+
+# private working docs: launch plan, search baseline (local only, never committed)
+docs/private/

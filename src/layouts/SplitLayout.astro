@@ -1,0 +1,42 @@
+---
+/**
+ * The site's page frame: the photo holds the left of the screen while the
+ * content scrolls on the right. Stacks on mobile, photo first. Pages fill the
+ * right column through the default slot; the footer is shared.
+ */
+import ProfilePhoto from '@/components/ProfilePhoto.astro';
+import { SocialLinks } from '@/components/SocialLinks';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { site } from '@/data/site';
+
+type Props = Parameters<typeof BaseLayout>[0];
+---
+
+<BaseLayout {...Astro.props}>
+  <div class="md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+    <div class="md:sticky md:top-0 md:h-dvh">
+      {/* On desktop the 3:4 photo covers a column 40vw wide and the full
+          window tall, so it draws at whichever width is larger: 40vw on
+          windows wider than 15:8, otherwise 75% of the window height. Austin
+          stands left of center, so the crop favors the left edge. */}
+      <ProfilePhoto
+        class="aspect-square w-full object-cover md:aspect-auto md:h-full md:object-[25%_50%]"
+        sizes="(min-width: 768px) and (min-aspect-ratio: 15/8) 40vw, (min-width: 768px) 75vh, 100vw"
+        priority
+      />
+    </div>
+
+    <div class="flex flex-col px-[var(--gutter)]">
+      <slot />
+
+      <footer class="mt-auto flex flex-col gap-3 pt-16 pb-[var(--gutter)]">
+        <nav aria-label="Profiles">
+          <SocialLinks className="-mx-3" />
+        </nav>
+        <p class="text-sm text-muted-foreground">
+          &copy; {new Date().getFullYear()} {site.name}
+        </p>
+      </footer>
+    </div>
+  </div>
+</BaseLayout>

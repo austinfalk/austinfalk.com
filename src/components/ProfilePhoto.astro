@@ -1,0 +1,26 @@
+---
+import { Picture } from 'astro:assets';
+import profile from '@/assets/profile.jpeg';
+
+interface Props {
+  class?: string;
+  /** `sizes` attribute; describe how wide the image renders at each breakpoint. */
+  sizes: string;
+  /** True for the hero image so it loads immediately. */
+  priority?: boolean;
+}
+
+const { class: className, sizes, priority = false } = Astro.props;
+---
+
+<Picture
+  src={profile}
+  alt="Portrait of Austin Falk in a white T-shirt against a gray wall"
+  formats={['avif', 'webp']}
+  widths={[480, 768, 1080, 1440, 1800, 2400, 3024]}
+  sizes={sizes}
+  width={3024}
+  height={4032}
+  priority={priority}
+  class={className}
+/>

@@ -1,0 +1,113 @@
+@import 'tailwindcss';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-outfit);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Dark only. Warm near-black, warm off-white, one mustard accent.
+       Flat color only: no gradients. */
+  --ink: #0c0b09;
+  --ink-raised: #14130f;
+  --ink-high: #1c1a16;
+  --mustard: #e7b23e;
+  --paper: #ece5d5;
+  --paper-dim: #a39e90;
+
+  --background: var(--ink);
+  --foreground: var(--paper);
+  --card: var(--ink-raised);
+  --card-foreground: var(--paper);
+  --popover: var(--ink-raised);
+  --popover-foreground: var(--paper);
+  --primary: var(--mustard);
+  --primary-foreground: var(--ink);
+  --secondary: var(--ink-high);
+  --secondary-foreground: var(--paper);
+  --muted: var(--ink-high);
+  --muted-foreground: var(--paper-dim);
+  --accent: var(--ink-high);
+  --accent-foreground: var(--paper);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(0.93 0.015 85 / 10%);
+  --input: oklch(0.93 0.015 85 / 15%);
+  --ring: var(--mustard);
+  --chart-1: var(--mustard);
+  --chart-2: var(--paper);
+  --chart-3: var(--paper-dim);
+  --chart-4: var(--ink-high);
+  --chart-5: var(--paper);
+  --radius: 0.625rem;
+  --sidebar: var(--ink-raised);
+  --sidebar-foreground: var(--paper);
+  --sidebar-primary: var(--mustard);
+  --sidebar-primary-foreground: var(--ink);
+  --sidebar-accent: var(--ink-high);
+  --sidebar-accent-foreground: var(--paper);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--mustard);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+    --gutter: clamp(1.5rem, 5vw, 7rem);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+}
+/* Let <picture> pass sizing straight through to its <img>. */
+picture {
+  display: contents;
+}
