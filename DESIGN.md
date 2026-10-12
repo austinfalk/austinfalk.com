@@ -69,13 +69,13 @@ invent new sizes.
 
 ## Imagery
 
-One photo: the 2026 profile shot (`src/assets/profile.jpeg`, the full 3:4
+One photo: the 2026 profile shot (`src/assets/austin-falk.jpeg`, the full 3:4
 portrait, 3024 × 4032, Display P3 profile kept, EXIF stripped). Astro converts
 it to sRGB AVIF/WebP at several widths. Don't strip its color profile.
 
 - Desktop: covers the tall photo column, cropped toward the left (Austin
   stands left of center). Mobile: a square crop of the full width.
-- Open Graph card: `src/assets/og.jpeg`, the portrait cropped by hand to
+- Open Graph card: `src/assets/austin-falk-og.jpeg`, the portrait cropped by hand to
   1.9:1 (hair to chin). Re-crop it if the photo changes.
 - Structured data uses a square center crop.
 

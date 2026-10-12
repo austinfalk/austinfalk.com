@@ -10,6 +10,9 @@ export const site = {
     'Austin Falk is an actor, creator, and M&A advisor, known for School Spirits and 2 Broke Girls, who shares his journey with more than 50,000 followers.',
 } as const;
 
+/** Describes the profile photo: its alt text on the page and its caption in structured data. */
+export const portraitAlt = 'Portrait of Austin Falk in a white T-shirt against a gray wall';
+
 export type SocialKey = 'instagram' | 'tiktok' | 'x' | 'github' | 'linkedin' | 'facebook' | 'imdb';
 
 /**
@@ -34,6 +37,8 @@ export const socials: { key: SocialKey; label: string; href: string }[] = [
 export const person = {
   givenName: 'Austin',
   familyName: 'Falk',
+  /** Profile handles, so search engines and LLMs tie the accounts to Austin. */
+  alternateName: ['@austinfalk', '@theaustinfalk'],
   jobTitle: ['Actor', 'Content creator', 'M&A advisor'],
   /** Topics from the copy, for search engines' and LLMs' entity graphs. */
   knowsAbout: [

@@ -1,6 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
-import profile from '@/assets/profile.jpeg';
+import profile from '@/assets/austin-falk.jpeg';
+import { portraitAlt } from '@/data/site';
 
 interface Props {
   class?: string;
@@ -15,7 +16,7 @@ const { class: className, sizes, priority = false } = Astro.props;
 
 <Picture
   src={profile}
-  alt="Portrait of Austin Falk in a white T-shirt against a gray wall"
+  alt={portraitAlt}
   formats={['avif', 'webp']}
   widths={[480, 768, 1080, 1440, 1800, 2400, 3024]}
   sizes={sizes}

@@ -16,6 +16,7 @@ const { class: className, variant = 'short' } = Astro.props;
     variant === 'long' && [
       '[&_p]:text-muted-foreground [&_strong]:font-semibold [&_strong]:text-foreground',
       '[&_h2]:mt-[1.6em] [&_h2]:mb-[0.4em] [&_h2]:scroll-mt-8 [&_h2]:text-[1.75em] [&_h2]:leading-tight [&_h2]:font-bold [&_h2]:tracking-tight [&_h2]:text-foreground [&_h2:first-child]:mt-0',
+      '[&_h3]:mt-4 [&_h3]:scroll-mt-8 [&_h3]:text-muted-foreground',
       '[&_ul]:mt-4 [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-1.5 [&_ul]:text-muted-foreground [&_li]:pl-5 [&_li]:relative [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:text-muted-foreground [&_li]:before:content-["–"] [&_ul+p]:mt-4 [&_p+ul]:mt-4',
     ],
     className,

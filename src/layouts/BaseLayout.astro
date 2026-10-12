@@ -1,9 +1,9 @@
 ---
 import '@/styles/global.css';
 import { Font, getImage } from 'astro:assets';
-import ogSource from '@/assets/og.jpeg';
-import profile from '@/assets/profile.jpeg';
-import { site, socials } from '@/data/site';
+import ogSource from '@/assets/austin-falk-og.jpeg';
+import profile from '@/assets/austin-falk.jpeg';
+import { portraitAlt, site, socials } from '@/data/site';
 import { type PageKind, structuredData } from '@/lib/structured-data';
 
 interface Props {
@@ -39,7 +39,7 @@ const pageTitle = !title
 // URL: /index.html -> /, /about.html -> /about.
 const canonical = new URL(Astro.url.pathname.replace(/(index)?\.html$/, ''), site.url).href;
 
-// og.jpeg is the portrait cropped by hand to the card's shape (hair to chin);
+// austin-falk-og.jpeg is the portrait cropped by hand to the card's shape (hair to chin);
 // no automatic crop of a 3:4 portrait frames the face at 1.9:1.
 const ogImage = await getImage({ src: ogSource, width: 1200, height: 630, format: 'jpg' });
 const personImage = await getImage({ src: profile, width: 1080, height: 1080, format: 'jpg' });
@@ -50,7 +50,12 @@ const jsonLd = structuredData({
   url: canonical,
   title: pageTitle,
   description,
-  image: new URL(personImage.src, site.url).href,
+  image: {
+    url: new URL(personImage.src, site.url).href,
+    width: 1080,
+    height: 1080,
+    caption: portraitAlt,
+  },
   modified,
 });
 ---
