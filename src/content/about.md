@@ -8,7 +8,7 @@ updated: 2026-10-11
 description: Biography of Austin Falk, an actor known for School Spirits and 2 Broke Girls, SAG-AFTRA and UBCP/ACTRA member, and M&A advisor at Forge Origination.
 ---
 
-Austin Falk is an actor, M&A advisor, and builder. He is known for recurring roles on School Spirits (Paramount+) and 2 Broke Girls (CBS). He is a buy-side M&A advisor at Forge Origination.
+Austin Falk is an actor, creator, and M&A advisor. He is known for recurring roles on School Spirits (Paramount+) and 2 Broke Girls (CBS). He is a buy-side M&A advisor at Forge Origination.
 
 ## Career
 

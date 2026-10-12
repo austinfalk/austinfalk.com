@@ -4,10 +4,10 @@ export const site = {
   name: 'Austin Falk',
   url: 'https://austinfalk.com',
   /** <title> on the home page. */
-  title: 'Austin Falk | Actor, M&A Advisor, Builder',
+  title: 'Austin Falk | Actor, Creator, M&A Advisor',
   /** Meta description, about 155 characters. */
   description:
-    'Austin Falk is an actor, M&A advisor, and builder. Known for School Spirits and 2 Broke Girls, he splits his time between Los Angeles and Vancouver.',
+    'Austin Falk is an actor, creator, and M&A advisor. Known for School Spirits and 2 Broke Girls, he splits his time between Los Angeles and Vancouver.',
 } as const;
 
 export type SocialKey = 'instagram' | 'x' | 'linkedin' | 'tiktok' | 'github' | 'facebook' | 'imdb';
@@ -29,11 +29,12 @@ export const socials: { key: SocialKey; label: string; href: string }[] = [
 export const person = {
   givenName: 'Austin',
   familyName: 'Falk',
-  jobTitle: ['Actor', 'M&A advisor', 'Software developer'],
+  jobTitle: ['Actor', 'Content creator', 'M&A advisor'],
   /** Topics from the copy, for search engines' and LLMs' entity graphs. */
   knowsAbout: [
     'Acting',
     'Film and television',
+    'Content creation',
     'Mergers and acquisitions',
     'Private equity',
     'Software development',
