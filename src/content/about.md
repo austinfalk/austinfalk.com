@@ -36,7 +36,7 @@ More than 50,000 followers across Instagram, TikTok, X, and Facebook keep up wit
 
 Falk is a buy-side M&A advisor at Forge Origination. He works with private equity and business owners to find opportunities for growth, while bolstering their respective foundations.
 
-### Selected industries
+### Selected Industries
 
 - Managed Service Providers (MSP/MSSP/IT)
 - Home Services
