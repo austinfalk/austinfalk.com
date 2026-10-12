@@ -13,4 +13,7 @@
     // The permanent 301s live in public/_redirects and run first.
     "html_handling": "drop-trailing-slash",
   },
+  // Required by `wrangler preview` (Worker Previews), which Workers Builds runs
+  // for every non-main branch. Empty: previews share the settings above.
+  "previews": {},
 }
