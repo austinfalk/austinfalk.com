@@ -13,10 +13,10 @@ import { type SocialKey, socials } from '@/data/site';
 
 const icons: Partial<Record<SocialKey, IconSvgElement>> = {
   instagram: InstagramIcon,
-  x: NewTwitterIcon,
-  linkedin: Linkedin01Icon,
   tiktok: TiktokIcon,
+  x: NewTwitterIcon,
   github: GithubIcon,
+  linkedin: Linkedin01Icon,
   facebook: Facebook01Icon,
 };
 

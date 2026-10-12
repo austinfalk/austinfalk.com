@@ -4,21 +4,40 @@ export const site = {
   name: 'Austin Falk',
   url: 'https://austinfalk.com',
   /** <title> on the home page. */
-  title: 'Austin Falk | Actor, M&A Advisor, Builder',
+  title: 'Austin Falk | Actor, Creator, M&A Advisor',
   /** Meta description, about 155 characters. */
   description:
-    'Austin Falk is an actor, M&A advisor, and builder. Known for School Spirits and 2 Broke Girls, he splits his time between Los Angeles and Vancouver.',
+    'Austin Falk is an actor, creator, and M&A advisor, known for School Spirits and 2 Broke Girls, who shares his journey with more than 50,000 followers.',
 } as const;
 
-export type SocialKey = 'instagram' | 'x' | 'linkedin' | 'tiktok' | 'github' | 'facebook' | 'imdb';
+/** Describes the profile photo: its alt text on the page and its caption in structured data. */
+export const portraitAlt = 'Portrait of Austin Falk in a white T-shirt against a gray wall';
 
-export const socials: { key: SocialKey; label: string; href: string }[] = [
-  { key: 'instagram', label: 'Instagram', href: 'https://instagram.com/austinfalk' },
-  { key: 'x', label: 'X', href: 'https://x.com/austinfalk' },
-  { key: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/austinfalk' },
-  { key: 'tiktok', label: 'TikTok', href: 'https://www.tiktok.com/@theaustinfalk' },
+export type SocialKey = 'instagram' | 'tiktok' | 'x' | 'github' | 'linkedin' | 'facebook' | 'imdb';
+
+/**
+ * Profiles in Austin's preferred order, used everywhere they're listed (footer,
+ * rel="me", structured data sameAs, Markdown and llms.txt): Instagram, TikTok,
+ * X, GitHub, LinkedIn, Facebook, IMDb.
+ */
+export const socials: {
+  key: SocialKey;
+  label: string;
+  href: string;
+  /** Approximate followers (Austin, 2026-10-12); update every few months. */
+  followers?: number;
+}[] = [
+  {
+    key: 'instagram',
+    label: 'Instagram',
+    href: 'https://instagram.com/austinfalk',
+    followers: 38000,
+  },
+  { key: 'tiktok', label: 'TikTok', href: 'https://www.tiktok.com/@theaustinfalk', followers: 415 },
+  { key: 'x', label: 'X', href: 'https://x.com/austinfalk', followers: 5400 },
   { key: 'github', label: 'GitHub', href: 'https://github.com/austinfalk' },
-  { key: 'facebook', label: 'Facebook', href: 'https://facebook.com/austinfalk' },
+  { key: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/austinfalk' },
+  { key: 'facebook', label: 'Facebook', href: 'https://facebook.com/austinfalk', followers: 7800 },
   { key: 'imdb', label: 'IMDb', href: 'https://www.imdb.com/name/nm6113984/' },
 ];
 
@@ -29,11 +48,15 @@ export const socials: { key: SocialKey; label: string; href: string }[] = [
 export const person = {
   givenName: 'Austin',
   familyName: 'Falk',
-  jobTitle: ['Actor', 'M&A advisor', 'Software developer'],
+  /** Profile handles, so search engines and LLMs tie the accounts to Austin. */
+  alternateName: ['@austinfalk', '@theaustinfalk'],
+  jobTitle: ['Actor', 'Content creator', 'M&A advisor'],
   /** Topics from the copy, for search engines' and LLMs' entity graphs. */
   knowsAbout: [
     'Acting',
     'Film and television',
+    'Content creation',
+    'Lifestyle',
     'Mergers and acquisitions',
     'Private equity',
     'Software development',
@@ -50,3 +73,67 @@ export const person = {
     'https://cs.wikipedia.org/wiki/Austin_Falk',
   ],
 };
+
+/**
+ * Selected credits for structured data, in the same order as the list in
+ * src/content/about.md (the build fails if a title or character there goes
+ * missing). Characters and IDs match IMDb and TMDB.
+ */
+export const credits: {
+  title: string;
+  type: 'TVSeries' | 'Movie';
+  character: string;
+  /** Years Austin appears; one year for a film. */
+  years: [number] | [number, number];
+  imdb: string;
+  tmdb: string;
+}[] = [
+  {
+    title: 'School Spirits',
+    type: 'TVSeries',
+    character: 'Jason',
+    years: [2023, 2026],
+    imdb: 'tt21057450',
+    tmdb: 'tv/208397',
+  },
+  {
+    title: '2 Broke Girls',
+    type: 'TVSeries',
+    character: 'Nash',
+    years: [2015],
+    imdb: 'tt1845307',
+    tmdb: 'tv/39340',
+  },
+  {
+    title: 'Killer in Suburbia',
+    type: 'Movie',
+    character: 'Jason',
+    years: [2020],
+    imdb: 'tt9736976',
+    tmdb: 'movie/666139',
+  },
+  {
+    title: 'Tales of Halloween',
+    type: 'Movie',
+    character: 'Kyle',
+    years: [2015],
+    imdb: 'tt4163020',
+    tmdb: 'movie/306964',
+  },
+  {
+    title: 'Grandfathered',
+    type: 'TVSeries',
+    character: 'Kyle',
+    years: [2016],
+    imdb: 'tt4465368',
+    tmdb: 'tv/63328',
+  },
+  {
+    title: 'Awkward',
+    type: 'TVSeries',
+    character: 'Mark',
+    years: [2015],
+    imdb: 'tt1663676',
+    tmdb: 'tv/39859',
+  },
+];
