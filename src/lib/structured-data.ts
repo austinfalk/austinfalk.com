@@ -19,6 +19,7 @@ export function structuredData(opts: {
   description: string;
   /** The portrait: an absolute URL, its size and a caption (the alt text). */
   image: { url: string; width: number; height: number; caption: string };
+  created?: string;
   modified?: string;
 }) {
   const page = {
@@ -32,6 +33,7 @@ export function structuredData(opts: {
     primaryImageOfPage: { '@id': portraitId },
     ...(opts.kind === 'page' ? {} : { about: { '@id': personId } }),
     ...(opts.kind === 'profile' ? { mainEntity: { '@id': personId } } : {}),
+    ...(opts.created ? { dateCreated: opts.created } : {}),
     ...(opts.modified ? { dateModified: opts.modified } : {}),
   };
 
@@ -43,6 +45,8 @@ export function structuredData(opts: {
         '@id': websiteId,
         url: `${site.url}/`,
         name: site.name,
+        // Google's site-name fallback if it doesn't use `name`.
+        alternateName: 'austinfalk.com',
         inLanguage: 'en',
         publisher: { '@id': personId },
       },

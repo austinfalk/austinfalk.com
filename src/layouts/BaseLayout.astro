@@ -17,6 +17,8 @@ interface Props {
   /** Path of this page's Markdown version for agents, e.g. "/index.md". */
   markdown?: string;
   /** Last meaningful content change, ISO date. */
+  /** When the page was first published, ISO date. */
+  created?: string;
   modified?: string;
 }
 
@@ -26,6 +28,7 @@ const {
   noindex = false,
   kind = 'page',
   markdown,
+  created,
   modified,
 } = Astro.props;
 
@@ -56,6 +59,7 @@ const jsonLd = structuredData({
     height: 1080,
     caption: portraitAlt,
   },
+  created,
   modified,
 });
 ---
@@ -83,7 +87,8 @@ const jsonLd = structuredData({
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {/* A noindex page (the 404) has no address of its own to claim. */}
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={new URL(ogImage.src, site.url).href} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -102,7 +107,7 @@ const jsonLd = structuredData({
     ))}
 
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {!noindex && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body class="min-h-dvh antialiased">
     <slot />

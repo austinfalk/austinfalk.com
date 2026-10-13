@@ -7,6 +7,14 @@
 /_astro/*
   Cache-Control: public, max-age=31556952, immutable
 
+# The Markdown copies are for agents and LLMs; the HTML pages are canonical,
+# so search engines don't index the copies as duplicates.
+/index.md
+  Link: <https://austinfalk.com/>; rel="canonical"
+
+/about.md
+  Link: <https://austinfalk.com/about>; rel="canonical"
+
 # Nothing on workers.dev (the Worker's own URL and every Preview URL) may be
 # indexed; canonicals already point at austinfalk.com. Cloudflare's documented
 # pattern, so no account subdomain is named here.

@@ -51,6 +51,12 @@ const headerChecks: { path: string; header: string; includes: string }[] = [
   { path: '/', header: 'cache-control', includes: 'must-revalidate' },
   { path: '/index.md', header: 'content-type', includes: 'text/markdown' },
   { path: '/llms.txt', header: 'content-type', includes: 'text/plain' },
+  { path: '/index.md', header: 'link', includes: '<https://austinfalk.com/>; rel="canonical"' },
+  {
+    path: '/about.md',
+    header: 'link',
+    includes: '<https://austinfalk.com/about>; rel="canonical"',
+  },
 ];
 
 let base = process.argv[2];
@@ -97,6 +103,20 @@ for (const h of headerChecks) {
   const ok = value.includes(h.includes);
   if (!ok) failures++;
   console.log(`${ok ? 'ok  ' : 'FAIL'} ${h.path} ${h.header}: ${value || '(missing)'}`);
+}
+
+// A missing URL serves the designed 404 page, not just the status. Worker
+// Previews (non-main branches) serve Cloudflare's plain "Not found" instead,
+// a platform limitation, so the check is skipped there.
+{
+  const host = new URL(base).hostname;
+  const branchPreview = host.endsWith('.workers.dev') && host.split('.')[0] !== 'austinfalk-com';
+  const body = await (await fetch(base + '/does-not-exist', { redirect: 'manual' })).text();
+  const ok = branchPreview || body.includes('<title>Not found');
+  if (!ok) failures++;
+  console.log(
+    `${ok ? 'ok  ' : 'FAIL'} /does-not-exist body: ${branchPreview ? 'skipped (Worker Preview)' : body.includes('<title>Not found') ? 'designed 404 page' : body.slice(0, 40)}`,
+  );
 }
 
 // The workers.dev preview is noindex; every other host must not be.

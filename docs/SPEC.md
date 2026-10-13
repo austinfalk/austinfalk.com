@@ -14,9 +14,11 @@ Replaces the WordPress site currently live at austinfalk.com.
 
 ## Identity
 
-The whole person, not a single label. Four pursuits, all named on the page:
+The whole person, not a single label: **actor, creator, and M&A advisor**
+(chosen 2026-10-12 over "builder"; the content is lifestyle and fitness).
+Four pursuits, all named on the page:
 
-1. Entertainment (acting)
+1. Entertainment (acting and content creation)
 2. Finance (M&A)
 3. Technology (software)
 4. Fitness
@@ -103,8 +105,20 @@ Visual rules (palette, type scale, layout, do's and don'ts) live in
 
 - Accurate titles and descriptions written for people.
 - Person JSON-LD with `sameAs` for every social profile, IMDb, Wikidata
-  (`Q20760336`), TMDB and the Czech Wikipedia article.
-- Open Graph image generated from the profile photo.
+  (`Q20760336`), TMDB and the Czech Wikipedia article; `jobTitle`,
+  `knowsAbout`, union memberships, profile handles (`alternateName`) and
+  approximate follower counts per platform. No birth date, nationality or
+  location, on purpose.
+- The biography is a `ProfilePage` whose selected credits are also
+  `TVSeries`/`Movie` nodes with IMDb and TMDB links and Austin's role; the
+  build fails if they drift from the copy.
+- The portrait is an `ImageObject` (caption, copyright) used by both pages;
+  image files are named `austin-falk.*`.
+- `WebSite` name "Austin Falk", `alternateName` "austinfalk.com" (Google's
+  site-name fallback).
+- Markdown copies (`/index.md`, `/about.md`) and `llms.txt` for agents; the
+  Markdown copies send a canonical `Link` header to their HTML page.
+- Open Graph image hand-cropped from the profile photo.
 - Sitemap and robots.txt.
 - **No trailing slashes** (`/about`, not `/about/`). Chosen 2026-10-11 over
   keeping WordPress's slashes; Google treats both equally as long as one form
