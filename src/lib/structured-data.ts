@@ -83,6 +83,9 @@ export function structuredData(opts: {
         width: opts.image.width,
         height: opts.image.height,
         caption: opts.image.caption,
+        // Austin took the photo himself.
+        creator: { '@id': personId },
+        creditText: site.name,
         copyrightHolder: { '@id': personId },
         copyrightNotice: `© ${new Date().getFullYear()} ${site.name}. All rights reserved.`,
       },
