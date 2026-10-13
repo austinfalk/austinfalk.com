@@ -83,6 +83,9 @@ export function structuredData(opts: {
         width: opts.image.width,
         height: opts.image.height,
         caption: opts.image.caption,
+        // Austin took the photo himself.
+        creator: { '@id': personId },
+        creditText: site.name,
         copyrightHolder: { '@id': personId },
         copyrightNotice: `© ${new Date().getFullYear()} ${site.name}. All rights reserved.`,
       },
@@ -96,13 +99,20 @@ export function structuredData(opts: {
 
 function creditNode(c: (typeof credits)[number]) {
   const [start, end = start] = c.years;
+  // Films are CreativeWork, not Movie: Google's Movie rich result requires a
+  // poster image for every Movie item and flags the page without one. The
+  // IMDb and TMDB links identify the film either way. CreativeWork has no
+  // `actor` property, so a film names Austin's role through `contributor`.
+  const isFilm = c.type === 'Movie';
+  const role = isFilm ? 'contributor' : 'actor';
   return {
-    '@type': c.type,
+    '@type': isFilm ? 'CreativeWork' : c.type,
     name: c.title,
     sameAs: [`https://www.imdb.com/title/${c.imdb}/`, `https://www.themoviedb.org/${c.tmdb}`],
-    actor: {
+    [role]: {
       '@type': 'PerformanceRole',
-      actor: { '@id': personId },
+      [role]: { '@id': personId },
+      roleName: 'Actor',
       characterName: c.character,
       startDate: String(start),
       endDate: String(end),

@@ -6,6 +6,8 @@ heading: About Austin Falk
 created: 2026-10-11
 # Date of the last real content change (YYYY-MM-DD); update when you edit.
 updated: 2026-10-12
+# Link-preview text (og:description), at most ~125 characters.
+shareDescription: Actor, creator, and M&A advisor known for School Spirits and 2 Broke Girls, sharing lifestyle and fitness content.
 # Meta description for this page (140–160 characters).
 description: Biography of Austin Falk, an actor known for School Spirits and 2 Broke Girls, lifestyle and fitness creator, and M&A advisor at Forge Origination.
 ---

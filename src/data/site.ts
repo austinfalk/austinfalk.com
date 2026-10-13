@@ -7,6 +7,9 @@ export const site = {
   email: 'partnerships@austinfalk.com',
   /** <title> on the home page. */
   title: 'Austin Falk | Actor, Creator, M&A Advisor',
+  /** Link-preview (og:description) text, at most ~125 characters; the title already names the roles. */
+  shareDescription:
+    'Recurring roles on School Spirits and 2 Broke Girls. Lifestyle and fitness creator with more than 50,000 followers.',
   /** Meta description, about 155 characters. */
   description:
     'Austin Falk is an actor, creator, and M&A advisor, known for School Spirits and 2 Broke Girls, who shares his journey with more than 50,000 followers.',
