@@ -48,6 +48,7 @@ const cases: Case[] = [
 const headerChecks: { path: string; header: string; includes: string }[] = [
   { path: '/', header: 'content-security-policy', includes: "default-src 'self'" },
   { path: '/', header: 'x-content-type-options', includes: 'nosniff' },
+  { path: '/', header: 'cross-origin-opener-policy', includes: 'same-origin' },
   { path: '/', header: 'cache-control', includes: 'must-revalidate' },
   { path: '/index.md', header: 'content-type', includes: 'text/markdown' },
   { path: '/llms.txt', header: 'content-type', includes: 'text/plain' },

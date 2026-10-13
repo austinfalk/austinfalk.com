@@ -3,6 +3,8 @@
 export const site = {
   name: 'Austin Falk',
   url: 'https://austinfalk.com',
+  /** Public address for brands, casting and other business (forwards to Austin). */
+  email: 'partnerships@austinfalk.com',
   /** <title> on the home page. */
   title: 'Austin Falk | Actor, Creator, M&A Advisor',
   /** Meta description, about 155 characters. */

@@ -5,6 +5,8 @@ import sitemap from '@astrojs/sitemap';
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import tailwindcss from '@tailwindcss/vite';
+import { satteri } from '@astrojs/markdown-satteri';
+import { headingAnchors } from './src/lib/heading-anchors.mjs';
 
 // The biography's last real content change (its `updated` frontmatter), used
 // as its sitemap lastmod. The home page gets none: a build date would claim it
@@ -61,6 +63,10 @@ export default defineConfig({
       fallbacks: ['sans-serif'],
     },
   ],
+  // Markdown headings get a "#" link to themselves (src/lib/heading-anchors.mjs).
+  markdown: {
+    processor: satteri({ hastPlugins: [headingAnchors] }),
+  },
   integrations: [
     // React renders shadcn components to static HTML at build time only.
     react(),

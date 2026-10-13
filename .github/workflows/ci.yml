@@ -10,9 +10,11 @@ on:
 permissions:
   contents: read
 
+# A new push to a pull request cancels its outdated run; runs on main always
+# finish, so every merged commit is checked.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   ci:
@@ -28,6 +30,14 @@ jobs:
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: package.json
+
+      # Reuse resized photos between runs (Astro's image cache); they only
+      # change when the source photos or image settings do. Saves about a minute.
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: node_modules/.astro
+          key: astro-${{ hashFiles('src/assets/**', 'src/components/ProfilePhoto.astro', 'src/layouts/BaseLayout.astro', 'bun.lock') }}
+          restore-keys: astro-
 
       - run: bun install --frozen-lockfile
       - run: bun run format:check

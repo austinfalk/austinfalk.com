@@ -40,6 +40,9 @@ const pursuits = await getPursuits();
           class="text-[clamp(2.25rem,4.5vw,6rem)] leading-[0.9] font-bold tracking-tighter"
         >
           {p.title}
+          <a class="heading-anchor" href={`#${p.id}`} aria-label={`Link to the ${p.title} section`}>
+            #
+          </a>
         </h2>
         <Prose class="max-w-[42ch] text-[clamp(1.0625rem,1.2vw,1.375rem)] leading-relaxed text-muted-foreground">
           <p.Content />

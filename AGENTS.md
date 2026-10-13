@@ -28,6 +28,7 @@ missing, ask; don't recreate it from memory.
 | `bun run format`                                | Prettier (Astro + Tailwind class sorting)                                                           |
 | `bun run test:redirects [url]`                  | Check redirects, status codes and headers; starts `wrangler dev` on `dist/` when no URL is given    |
 | `bun run shot <url> <out.png> [w] [h] [--full]` | Screenshot a page in headless Chromium                                                              |
+| `bun run og`                                    | Re-render the link-preview card (after `bun run build`) when the photo, name or title changes       |
 | `bun run deploy`                                | Manual build and deploy, for emergencies only (**ask Austin first**)                                |
 
 Before calling a change done: `bun run check`, `bun run build`, and
