@@ -26,5 +26,9 @@ https://:version.:subdomain.workers.dev/*
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   X-Frame-Options: DENY
+  # Isolates the site's window from pages it opens or is opened by. Not
+  # Cross-Origin-Resource-Policy: same-origin, which would stop Google Images
+  # and link-preview apps from showing the photo.
+  Cross-Origin-Opener-Policy: same-origin
   Strict-Transport-Security: max-age=31536000
   Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests

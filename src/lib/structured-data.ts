@@ -63,6 +63,7 @@ export function structuredData(opts: {
         jobTitle: person.jobTitle,
         knowsAbout: person.knowsAbout,
         memberOf: person.memberOf.map((org) => ({ '@type': 'Organization', ...org })),
+        email: site.email,
         sameAs: [...socials.map((s) => s.href), ...person.records],
         // Followers per platform, each tied to the profile it counts.
         interactionStatistic: socials

@@ -75,8 +75,11 @@ it to sRGB AVIF/WebP at several widths. Don't strip its color profile.
 
 - Desktop: covers the tall photo column, cropped toward the left (Austin
   stands left of center). Mobile: a square crop of the full width.
-- Open Graph card: `src/assets/austin-falk-og.jpeg`, the portrait cropped by hand to
-  1.9:1 (hair to chin). Re-crop it if the photo changes.
+- Open Graph card (`src/assets/austin-falk-og.png`, 1200 × 630): the portrait
+  on the left, zoomed so the face reads at feed sizes; on the right the domain
+  (paper-dim) at the top, the name (Outfit Bold, paper) and the roles at the
+  bottom, like the home page's title card. Rendered by `bun run og` from the
+  photo, `site.name` and `site.title`; re-run it when any of those change.
 - Structured data uses a square center crop.
 
 ## Favicon

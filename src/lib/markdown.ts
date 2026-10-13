@@ -70,5 +70,6 @@ function keyFacts() {
     `- Selected roles: ${roles.join('; ')}`,
     `- Member of: ${person.memberOf.map((o) => o.name).join(', ')}`,
     `- Official website: ${site.url}`,
+    `- Partnerships and business: ${site.email}`,
   ].join('\n');
 }

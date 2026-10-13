@@ -1,7 +1,7 @@
 ---
 import '@/styles/global.css';
 import { Font, getImage } from 'astro:assets';
-import ogSource from '@/assets/austin-falk-og.jpeg';
+import ogSource from '@/assets/austin-falk-og.png';
 import profile from '@/assets/austin-falk.jpeg';
 import { portraitAlt, site, socials } from '@/data/site';
 import { type PageKind, structuredData } from '@/lib/structured-data';
@@ -42,8 +42,7 @@ const pageTitle = !title
 // URL: /index.html -> /, /about.html -> /about.
 const canonical = new URL(Astro.url.pathname.replace(/(index)?\.html$/, ''), site.url).href;
 
-// austin-falk-og.jpeg is the portrait cropped by hand to the card's shape (hair to chin);
-// no automatic crop of a 3:4 portrait frames the face at 1.9:1.
+// The link-preview card, rendered by `bun run og` (scripts/og-card.ts).
 const ogImage = await getImage({ src: ogSource, width: 1200, height: 630, format: 'jpg' });
 const personImage = await getImage({ src: profile, width: 1080, height: 1080, format: 'jpg' });
 const ogImageAlt = 'Portrait of Austin Falk';

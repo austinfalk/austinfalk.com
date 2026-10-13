@@ -111,3 +111,24 @@
 picture {
   display: contents;
 }
+
+/* "#" link after section headings (heading-anchors.mjs, index.astro): shown on
+   hover and keyboard focus, mustard on hover, hidden on touch screens. */
+.heading-anchor {
+  @apply ml-[0.3em] align-middle text-[0.55em] font-normal text-muted-foreground no-underline opacity-0 transition-opacity;
+}
+h3 > .heading-anchor {
+  @apply text-[1em];
+}
+:is(h2, h3):hover > .heading-anchor,
+.heading-anchor:focus-visible {
+  @apply opacity-100;
+}
+.heading-anchor:hover {
+  @apply text-primary;
+}
+@media (hover: none) {
+  .heading-anchor {
+    @apply hidden;
+  }
+}
