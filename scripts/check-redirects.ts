@@ -100,7 +100,9 @@ for (const c of cases) {
 
 for (const h of headerChecks) {
   const res = await fetch(base + h.path, { redirect: 'manual' });
-  const value = res.headers.get(h.header) ?? '';
+  // With the custom domain in wrangler.jsonc, wrangler dev rewrites
+  // https://austinfalk.com in response headers to its own local origin.
+  const value = (res.headers.get(h.header) ?? '').replaceAll(origin, 'https://austinfalk.com');
   const ok = value.includes(h.includes);
   if (!ok) failures++;
   console.log(`${ok ? 'ok  ' : 'FAIL'} ${h.path} ${h.header}: ${value || '(missing)'}`);
