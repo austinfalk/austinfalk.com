@@ -16,4 +16,14 @@
   // Required by `wrangler preview` (Worker Previews), which Workers Builds runs
   // for every non-main branch. Empty: previews share the settings above.
   "previews": {},
+  // The site lives at austinfalk.com. Cloudflare creates the DNS record and the
+  // certificate; no other record may exist at the apex. www → apex is a
+  // Cloudflare redirect rule, not a route here.
+  "routes": [{ "pattern": "austinfalk.com", "custom_domain": true }],
+  // No workers.dev address for the live site. Both settings are explicit:
+  // dashboard toggles are undone by the next deploy, and since Wrangler 4.44
+  // preview URLs follow workers_dev unless set, which would turn off the
+  // Preview URLs on pull requests.
+  "workers_dev": false,
+  "preview_urls": true,
 }

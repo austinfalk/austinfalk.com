@@ -100,7 +100,9 @@ for (const c of cases) {
 
 for (const h of headerChecks) {
   const res = await fetch(base + h.path, { redirect: 'manual' });
-  const value = res.headers.get(h.header) ?? '';
+  // With the custom domain in wrangler.jsonc, wrangler dev rewrites
+  // https://austinfalk.com in response headers to its own local origin.
+  const value = (res.headers.get(h.header) ?? '').replaceAll(origin, 'https://austinfalk.com');
   const ok = value.includes(h.includes);
   if (!ok) failures++;
   console.log(`${ok ? 'ok  ' : 'FAIL'} ${h.path} ${h.header}: ${value || '(missing)'}`);
@@ -118,6 +120,25 @@ for (const h of headerChecks) {
   console.log(
     `${ok ? 'ok  ' : 'FAIL'} /does-not-exist body: ${branchPreview ? 'skipped (Worker Preview)' : body.includes('<title>Not found') ? 'designed 404 page' : body.slice(0, 40)}`,
   );
+}
+
+// On the live domain, also check the redirects that happen before the site:
+// http -> https and www -> apex (Cloudflare edge rules, not _redirects).
+if (new URL(base).hostname === 'austinfalk.com') {
+  const edge: [string, string][] = [
+    ['http://austinfalk.com/', 'https://austinfalk.com/'],
+    ['https://www.austinfalk.com/', 'https://austinfalk.com/'],
+    ['https://www.austinfalk.com/about?x=1', 'https://austinfalk.com/about?x=1'],
+  ];
+  for (const [from, to] of edge) {
+    const res = await fetch(from, { redirect: 'manual' });
+    const ok = res.status === 301 && res.headers.get('location') === to;
+    if (!ok) failures++;
+    console.log(
+      `${ok ? 'ok  ' : 'FAIL'} ${from} ${res.status} -> ${res.headers.get('location')}` +
+        (ok ? '' : `   (expected 301 -> ${to})`),
+    );
+  }
 }
 
 // The workers.dev preview is noindex; every other host must not be.
