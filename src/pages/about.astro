@@ -23,10 +23,11 @@ if (expected.some((title, i) => listed[i] !== title)) {
 <SplitLayout
   title={frontmatter.title}
   description={frontmatter.description}
+  shareDescription={frontmatter.shareDescription}
   kind="profile"
   markdown="/about.md"
-  created={frontmatter.created && new Date(frontmatter.created).toISOString().slice(0, 10)}
-  modified={frontmatter.updated && new Date(frontmatter.updated).toISOString().slice(0, 10)}
+  created={frontmatter.created && new Date(frontmatter.created).toISOString()}
+  modified={frontmatter.updated && new Date(frontmatter.updated).toISOString()}
 >
   <header class="flex flex-col gap-[clamp(1.5rem,2.5vw,3rem)] pt-12 md:pt-[var(--gutter)]">
     <a

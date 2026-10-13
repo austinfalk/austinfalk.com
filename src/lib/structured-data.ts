@@ -97,7 +97,10 @@ export function structuredData(opts: {
 function creditNode(c: (typeof credits)[number]) {
   const [start, end = start] = c.years;
   return {
-    '@type': c.type,
+    // Films are CreativeWork, not Movie: Google's Movie rich result requires a
+    // poster image for every Movie item and flags the page without one. The
+    // IMDb and TMDB links identify the film either way.
+    '@type': c.type === 'Movie' ? 'CreativeWork' : c.type,
     name: c.title,
     sameAs: [`https://www.imdb.com/title/${c.imdb}/`, `https://www.themoviedb.org/${c.tmdb}`],
     actor: {

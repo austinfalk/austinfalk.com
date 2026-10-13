@@ -10,6 +10,8 @@ interface Props {
   /** Page title; the home page uses the site name alone. */
   title?: string;
   description?: string;
+  /** Shorter text for link previews (og:description); defaults to `description`. */
+  shareDescription?: string;
   /** Keep the page out of search results (404). */
   noindex?: boolean;
   /** What the page is, for structured data. */
@@ -25,6 +27,7 @@ interface Props {
 const {
   title,
   description = site.description,
+  shareDescription = Astro.props.description ? description : site.shareDescription,
   noindex = false,
   kind = 'page',
   markdown,
@@ -85,7 +88,7 @@ const jsonLd = structuredData({
     <meta property="og:site_name" content={site.name} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={shareDescription} />
     {/* A noindex page (the 404) has no address of its own to claim. */}
     {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={new URL(ogImage.src, site.url).href} />
