@@ -25,6 +25,7 @@ if (expected.some((title, i) => listed[i] !== title)) {
   description={frontmatter.description}
   kind="profile"
   markdown="/about.md"
+  created={frontmatter.created && new Date(frontmatter.created).toISOString().slice(0, 10)}
   modified={frontmatter.updated && new Date(frontmatter.updated).toISOString().slice(0, 10)}
 >
   <header class="flex flex-col gap-[clamp(1.5rem,2.5vw,3rem)] pt-12 md:pt-[var(--gutter)]">

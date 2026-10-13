@@ -1,7 +1,7 @@
 import { getCollection } from 'astro:content';
 import aboutSource from '@/content/about.md?raw';
 import introSource from '@/content/intro.md?raw';
-import { site, socials } from '@/data/site';
+import { credits, person, site, socials } from '@/data/site';
 
 /**
  * Markdown versions of the pages for agents and LLMs (/index.md, /about.md,
@@ -48,9 +48,27 @@ export function llmsTxt() {
         '## Pages',
         '',
         `- [Home](${site.url}/index.md): who Austin Falk is and what he does`,
-        `- [Biography](${site.url}/about.md): full biography, career and selected credits`,
+        `- [Biography](${site.url}/about.md): full biography, career, movies and TV shows`,
       ].join('\n'),
+      keyFacts(),
       `## Profiles\n\n${profiles()}`,
     ].join('\n\n') + '\n'
   );
+}
+
+/** Facts for llms.txt, built from the same data as the structured data. */
+function keyFacts() {
+  const roles = credits.map((c) => {
+    const years = c.years.length > 1 ? `${c.years[0]}–${c.years[1]}` : `${c.years[0]}`;
+    return `${c.title} (${c.character}, ${years})`;
+  });
+  return [
+    '## Key facts',
+    '',
+    `- Name: ${site.name}`,
+    `- Occupations: ${person.jobTitle.join(', ')}`,
+    `- Selected roles: ${roles.join('; ')}`,
+    `- Member of: ${person.memberOf.map((o) => o.name).join(', ')}`,
+    `- Official website: ${site.url}`,
+  ].join('\n');
 }

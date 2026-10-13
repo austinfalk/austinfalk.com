@@ -2,6 +2,8 @@
 title: Austin Falk | Biography
 # The visible page heading (<h1>); `title` above is the browser tab and search result.
 heading: About Austin Falk
+# When this biography page was first published (YYYY-MM-DD); never changes.
+created: 2026-10-11
 # Date of the last real content change (YYYY-MM-DD); update when you edit.
 updated: 2026-10-12
 # Meta description for this page (140–160 characters).
