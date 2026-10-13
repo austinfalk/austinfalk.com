@@ -120,6 +120,25 @@ for (const h of headerChecks) {
   );
 }
 
+// On the live domain, also check the redirects that happen before the site:
+// http -> https and www -> apex (Cloudflare edge rules, not _redirects).
+if (new URL(base).hostname === 'austinfalk.com') {
+  const edge: [string, string][] = [
+    ['http://austinfalk.com/', 'https://austinfalk.com/'],
+    ['https://www.austinfalk.com/', 'https://austinfalk.com/'],
+    ['https://www.austinfalk.com/about?x=1', 'https://austinfalk.com/about?x=1'],
+  ];
+  for (const [from, to] of edge) {
+    const res = await fetch(from, { redirect: 'manual' });
+    const ok = res.status === 301 && res.headers.get('location') === to;
+    if (!ok) failures++;
+    console.log(
+      `${ok ? 'ok  ' : 'FAIL'} ${from} ${res.status} -> ${res.headers.get('location')}` +
+        (ok ? '' : `   (expected 301 -> ${to})`),
+    );
+  }
+}
+
 // The workers.dev preview is noindex; every other host must not be.
 {
   const preview = new URL(base).hostname.endsWith('.workers.dev');
