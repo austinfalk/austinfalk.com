@@ -133,7 +133,8 @@ Visual rules (palette, type scale, layout, do's and don'ts) live in
     WordPress endpoints, then a general rule stripping any trailing slash.
     All 301.
   - Domain-level (`www` → apex, `http` → `https`): handled at Cloudflare's
-    edge, outside this repo. All 301.
+    edge, outside this repo. All 301, one hop (`http://www` goes straight
+    to `https://` on the apex).
   - Cloudflare's built-in `html_handling: drop-trailing-slash` is only a
     fallback (it redirects with a temporary 307).
   - No Worker script.
