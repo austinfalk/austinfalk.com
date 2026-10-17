@@ -124,9 +124,11 @@ for (const h of headerChecks) {
 
 // On the live domain, also check the redirects that happen before the site:
 // http -> https and www -> apex (Cloudflare edge rules, not _redirects).
+// http://www goes straight to the apex in one hop, not via https://www.
 if (new URL(base).hostname === 'austinfalk.com') {
   const edge: [string, string][] = [
     ['http://austinfalk.com/', 'https://austinfalk.com/'],
+    ['http://www.austinfalk.com/about?x=1', 'https://austinfalk.com/about?x=1'],
     ['https://www.austinfalk.com/', 'https://austinfalk.com/'],
     ['https://www.austinfalk.com/about?x=1', 'https://austinfalk.com/about?x=1'],
   ];
