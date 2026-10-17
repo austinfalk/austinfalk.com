@@ -119,7 +119,8 @@ Visual rules (palette, type scale, layout, do's and don'ts) live in
 - Markdown copies (`/index.md`, `/about.md`) and `llms.txt` for agents; the
   Markdown copies send a canonical `Link` header to their HTML page.
 - Open Graph image hand-cropped from the profile photo.
-- Sitemap and robots.txt.
+- Sitemap, robots.txt, and `/.well-known/security.txt` (RFC 9116; renew
+  `Expires` yearly).
 - **No trailing slashes** (`/about`, not `/about/`). Chosen 2026-10-11 over
   keeping WordPress's slashes; Google treats both equally as long as one form
   is used everywhere and the other redirects permanently. Astro

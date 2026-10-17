@@ -19,6 +19,7 @@ const cases: Case[] = [
   { path: '/robots.txt', status: 200 },
   { path: '/sitemap-index.xml', status: 200 },
   { path: '/llms.txt', status: 200 },
+  { path: '/.well-known/security.txt', status: 200 },
   { path: '/index.md', status: 200 },
   { path: '/about.md', status: 200 },
   { path: '/favicon.ico', status: 200 },
@@ -33,6 +34,7 @@ const cases: Case[] = [
   { path: '/contact', status: 301, location: '/' },
   { path: '/contact/', status: 301, location: '/' },
   { path: '/sitemap.xml', status: 301, location: '/sitemap-index.xml' },
+  { path: '/security.txt', status: 301, location: '/.well-known/security.txt' },
   // Legacy WordPress endpoints
   { path: '/feed', status: 301, location: '/' },
   { path: '/feed/', status: 301, location: '/' },
@@ -52,6 +54,7 @@ const headerChecks: { path: string; header: string; includes: string }[] = [
   { path: '/', header: 'cache-control', includes: 'must-revalidate' },
   { path: '/index.md', header: 'content-type', includes: 'text/markdown' },
   { path: '/llms.txt', header: 'content-type', includes: 'text/plain' },
+  { path: '/.well-known/security.txt', header: 'content-type', includes: 'text/plain' },
   { path: '/index.md', header: 'link', includes: '<https://austinfalk.com/>; rel="canonical"' },
   {
     path: '/about.md',
@@ -119,6 +122,17 @@ for (const h of headerChecks) {
   if (!ok) failures++;
   console.log(
     `${ok ? 'ok  ' : 'FAIL'} /does-not-exist body: ${branchPreview ? 'skipped (Worker Preview)' : body.includes('<title>Not found') ? 'designed 404 page' : body.slice(0, 40)}`,
+  );
+}
+
+// security.txt must not be expired (RFC 9116); renew Expires before then.
+{
+  const text = await (await fetch(base + '/.well-known/security.txt')).text();
+  const expires = text.match(/^Expires: (.+)$/m)?.[1];
+  const ok = !!expires && new Date(expires).getTime() > Date.now();
+  if (!ok) failures++;
+  console.log(
+    `${ok ? 'ok  ' : 'FAIL'} /.well-known/security.txt Expires: ${expires ?? '(missing)'}`,
   );
 }
 

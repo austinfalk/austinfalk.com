@@ -14,6 +14,10 @@
 # Old sitemap URL (still in Search Console and Bing).
 /sitemap.xml    /sitemap-index.xml   301
 
+# security.txt lives under /.well-known/ (RFC 9116); the old root location
+# redirects there.
+/security.txt   /.well-known/security.txt   301
+
 # Legacy WordPress endpoints.
 /wp-login.php   /                    301
 /xmlrpc.php     /                    301

@@ -1,0 +1,7 @@
+# Security contact for austinfalk.com (RFC 9116, https://www.rfc-editor.org/rfc/rfc9116).
+# Renew Expires before it passes; `bun run test:redirects` fails once it has.
+
+Contact: mailto:security@austinfalk.com
+Expires: 2027-10-16T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://austinfalk.com/.well-known/security.txt
