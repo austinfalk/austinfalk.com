@@ -32,3 +32,6 @@ CLAUDE.local.md
 
 # private working docs: launch plan, search baseline (local only, never committed)
 docs/private/
+
+# verification runs and their evidence (.claude/skills/verify-site)
+.verify/
