@@ -49,6 +49,10 @@ const cases: Case[] = [
 
 const headerChecks: { path: string; header: string; includes: string }[] = [
   { path: '/', header: 'cache-control', includes: 'must-revalidate' },
+  { path: '/favicon.ico', header: 'cache-control', includes: 'max-age=86400' },
+  { path: '/apple-touch-icon.png', header: 'cache-control', includes: 'max-age=86400' },
+  { path: '/icon-512.png', header: 'cache-control', includes: 'max-age=86400' },
+  { path: '/site.webmanifest', header: 'cache-control', includes: 'max-age=86400' },
   { path: '/index.md', header: 'content-type', includes: 'text/markdown; charset=utf-8' },
   { path: '/about.md', header: 'content-type', includes: 'text/markdown; charset=utf-8' },
   { path: '/llms.txt', header: 'content-type', includes: 'text/plain; charset=utf-8' },
