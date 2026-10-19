@@ -43,7 +43,7 @@
     "shadcn": "^4.21.4",
     "tailwindcss": "^4.3.3",
     "typescript": "^6",
-    "wrangler": "^4.135.0"
+    "wrangler": "^4.150.0"
   },
   "trustedDependencies": [
     "@tailwindcss/oxide",
