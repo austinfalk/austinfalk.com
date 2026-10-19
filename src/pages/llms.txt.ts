@@ -2,4 +2,4 @@ import type { APIRoute } from 'astro';
 import { llmsTxt } from '@/lib/markdown';
 
 // Cloudflare sets the Content-Type from the file extension; public/_headers adds the charset.
-export const GET: APIRoute = () => new Response(llmsTxt());
+export const GET: APIRoute = async () => new Response(await llmsTxt());

@@ -72,22 +72,20 @@ export const person = {
     { name: 'UBCP/ACTRA', url: 'https://www.ubcpactra.ca' },
   ],
   /** Other authoritative records about Austin, added to `sameAs` alongside the social profiles. */
-  records: [
-    'https://www.wikidata.org/wiki/Q20760336',
-    'https://www.themoviedb.org/person/1321836',
-    'https://cs.wikipedia.org/wiki/Austin_Falk',
-  ],
+  records: ['https://www.wikidata.org/wiki/Q20760336', 'https://www.themoviedb.org/person/1321836'],
 };
 
 /**
  * Selected credits for structured data, in the same order as the list in
- * src/content/about.md (the build fails if a title there goes missing or a
- * character the copy names differs). Characters and IDs match IMDb and TMDB.
+ * src/content/about.md. A credit names Austin's character only where the copy
+ * does, so structured data never claims more than the page shows; the build
+ * fails if titles or characters differ. Characters and IDs match IMDb and TMDB.
  */
 export const credits: {
   title: string;
   type: 'TVSeries' | 'Movie';
-  character: string;
+  /** Only when the copy names it ("- _Title_ (Network, years), Character"). */
+  character?: string;
   /** Years Austin appears; one year for a film. */
   years: [number] | [number, number];
   imdb: string;
@@ -112,7 +110,6 @@ export const credits: {
   {
     title: 'Killer in Suburbia',
     type: 'Movie',
-    character: 'Jason',
     years: [2020],
     imdb: 'tt9736976',
     tmdb: 'movie/666139',
@@ -120,7 +117,6 @@ export const credits: {
   {
     title: 'Tales of Halloween',
     type: 'Movie',
-    character: 'Kyle',
     years: [2015],
     imdb: 'tt4163020',
     tmdb: 'movie/306964',
@@ -128,7 +124,6 @@ export const credits: {
   {
     title: 'Grandfathered',
     type: 'TVSeries',
-    character: 'Kyle',
     years: [2016],
     imdb: 'tt4465368',
     tmdb: 'tv/63328',
@@ -136,7 +131,6 @@ export const credits: {
   {
     title: 'Awkward',
     type: 'TVSeries',
-    character: 'Mark',
     years: [2015],
     imdb: 'tt1663676',
     tmdb: 'tv/39859',

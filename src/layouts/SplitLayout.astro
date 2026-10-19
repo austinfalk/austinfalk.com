@@ -14,7 +14,7 @@ type Props = Parameters<typeof BaseLayout>[0];
 
 <BaseLayout {...Astro.props}>
   <div class="md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-    <div class="md:sticky md:top-0 md:h-dvh">
+    <aside aria-label="Portrait" class="md:sticky md:top-0 md:h-dvh">
       {/* On desktop the 3:4 photo covers a column 40vw wide and the full
           window tall, so it draws at whichever width is larger: 40vw on
           windows wider than 15:8, otherwise 75% of the window height. Austin
@@ -24,7 +24,7 @@ type Props = Parameters<typeof BaseLayout>[0];
         sizes="(min-width: 768px) and (min-aspect-ratio: 15/8) 40vw, (min-width: 768px) 75vh, 100vw"
         priority
       />
-    </div>
+    </aside>
 
     <div class="flex flex-col px-[var(--gutter)]">
       <slot />
