@@ -44,6 +44,8 @@ WCAG AAA for body text).
 
 - **Mustard is reserved** for links, hover and focus states. Never for
   headings, list markers, decoration or backgrounds.
+  One deliberate exception: selected text is highlighted in mustard
+  (`::selection` in `src/styles/global.css`), as an interaction state.
 - shadcn's theme variables map onto this palette (`--background` = ink,
   `--foreground` = paper, `--primary` and `--ring` = mustard,
   `--muted-foreground` = paper-dim). Use the semantic classes
