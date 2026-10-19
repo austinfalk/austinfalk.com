@@ -120,6 +120,11 @@ if (!base) {
 
 let failures = 0;
 const origin = new URL(base).origin;
+// Worker Previews (non-main branches) answer a missing URL with Cloudflare's
+// plain "Not found", without the designed page or public/_headers: a platform
+// limitation, so the 404 checks are skipped there.
+const host = new URL(base).hostname;
+const branchPreview = host.endsWith('.workers.dev') && host.split('.')[0] !== 'austinfalk-com';
 
 for (const c of cases) {
   const res = await fetch(base + c.path, { redirect: 'manual' });
@@ -144,6 +149,10 @@ for (const h of headerChecks) {
 }
 
 for (const path of sitewidePaths) {
+  if (branchPreview && path === '/does-not-exist') {
+    console.log(`ok   ${path}: site-wide headers skipped (Worker Preview)`);
+    continue;
+  }
   const res = await fetch(base + path, { redirect: 'manual' });
   const wrong = sitewideHeaders.filter(([name, value]) => res.headers.get(name) !== value);
   if (wrong.length) failures++;
@@ -153,12 +162,9 @@ for (const path of sitewidePaths) {
   );
 }
 
-// A missing URL serves the designed 404 page, not just the status. Worker
-// Previews (non-main branches) serve Cloudflare's plain "Not found" instead,
-// a platform limitation, so the check is skipped there.
+// A missing URL serves the designed 404 page, not just the status (skipped on
+// branch previews; see branchPreview).
 {
-  const host = new URL(base).hostname;
-  const branchPreview = host.endsWith('.workers.dev') && host.split('.')[0] !== 'austinfalk-com';
   const body = await (await fetch(base + '/does-not-exist', { redirect: 'manual' })).text();
   const ok = branchPreview || body.includes('<title>Not found');
   if (!ok) failures++;
