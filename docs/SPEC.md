@@ -55,7 +55,8 @@ Biography (`/about`):
 
 Not on the site:
 
-- Email address, contact form, phone, address
+- Contact form, phone, address, and any email address other than the
+  business one (partnerships@, in the footer, structured data and `llms.txt`)
 - Agency / representation info
 - A credits list on the home page (the bio page covers credits)
 - Posters and old photography from the live or TanStack sites

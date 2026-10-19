@@ -1,11 +1,14 @@
 # Weekly dependency updates, grouped so each ecosystem is one pull request.
-# Each PR runs CI and gets its own Cloudflare Preview URL.
+# Each PR runs CI and gets its own Cloudflare Preview URL. Releases wait out a
+# cooldown first: most malicious versions are pulled within days.
 version: 2
 updates:
   - package-ecosystem: bun
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 5
     groups:
       dependencies:
         patterns: ['*']
@@ -18,6 +21,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 5
     groups:
       actions:
         patterns: ['*']

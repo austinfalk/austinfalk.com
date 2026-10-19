@@ -1,7 +1,6 @@
-import { getCollection } from 'astro:content';
-import aboutSource from '@/content/about.md?raw';
 import introSource from '@/content/intro.md?raw';
 import { credits, person, site, socials } from '@/data/site';
+import { getBio, getSortedPursuits } from '@/lib/content';
 
 /**
  * Markdown versions of the pages for agents and LLMs (/index.md, /about.md,
@@ -21,7 +20,7 @@ const profiles = () => socials.map((s) => `- [${s.label}](${s.href})`).join('\n'
 export const intro = () => clean(introSource);
 
 export async function homeMarkdown() {
-  const pursuits = (await getCollection('pursuits')).sort((a, b) => a.data.order - b.data.order);
+  const pursuits = await getSortedPursuits();
   return (
     [
       `# ${site.name}`,
@@ -33,8 +32,12 @@ export async function homeMarkdown() {
   );
 }
 
-export function aboutMarkdown(title: string) {
-  return [`# ${title}`, clean(aboutSource), `## Profiles\n\n${profiles()}`].join('\n\n') + '\n';
+export async function aboutMarkdown() {
+  const bio = await getBio();
+  return (
+    [`# ${bio.data.heading}`, clean(bio.body ?? ''), `## Profiles\n\n${profiles()}`].join('\n\n') +
+    '\n'
+  );
 }
 
 /** llms.txt (https://llmstxt.org): a map of the site for language models. */

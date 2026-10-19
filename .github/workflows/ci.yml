@@ -31,6 +31,11 @@ jobs:
         with:
           bun-version-file: package.json
 
+      # Astro's CLI runs on Node. Same version as Workers Builds: .node-version.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+
       # Reuse resized photos between runs (Astro's image cache); they only
       # change when the source photos or image settings do. Saves about a minute.
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -40,6 +45,11 @@ jobs:
           restore-keys: astro-
 
       - run: bun install --frozen-lockfile
+      # GitHub's dependency graph doesn't read bun.lock, so Dependabot alerts
+      # miss transitive packages. The ignored advisory is `braces`, reached
+      # only through the shadcn CLI (dev-only) and with no fixed release yet.
+      - run: bun audit --ignore=GHSA-vfj7-8cjw-p6xm
+      - run: bun run check:public
       - run: bun run format:check
       - run: bun run check
       - run: bun run build

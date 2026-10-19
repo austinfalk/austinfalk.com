@@ -8,7 +8,7 @@
  * Run `bun run build` first when testing locally. Exits non-zero on failure.
  */
 
-export {};
+import { readFileSync } from 'node:fs';
 
 type Case = { path: string; status: number; location?: string };
 
@@ -48,13 +48,20 @@ const cases: Case[] = [
 ];
 
 const headerChecks: { path: string; header: string; includes: string }[] = [
-  { path: '/', header: 'content-security-policy', includes: "default-src 'self'" },
-  { path: '/', header: 'x-content-type-options', includes: 'nosniff' },
-  { path: '/', header: 'cross-origin-opener-policy', includes: 'same-origin' },
   { path: '/', header: 'cache-control', includes: 'must-revalidate' },
-  { path: '/index.md', header: 'content-type', includes: 'text/markdown' },
-  { path: '/llms.txt', header: 'content-type', includes: 'text/plain' },
-  { path: '/.well-known/security.txt', header: 'content-type', includes: 'text/plain' },
+  { path: '/favicon.ico', header: 'cache-control', includes: 'max-age=86400' },
+  { path: '/apple-touch-icon.png', header: 'cache-control', includes: 'max-age=86400' },
+  { path: '/icon-512.png', header: 'cache-control', includes: 'max-age=86400' },
+  { path: '/site.webmanifest', header: 'cache-control', includes: 'max-age=86400' },
+  { path: '/index.md', header: 'content-type', includes: 'text/markdown; charset=utf-8' },
+  { path: '/about.md', header: 'content-type', includes: 'text/markdown; charset=utf-8' },
+  { path: '/llms.txt', header: 'content-type', includes: 'text/plain; charset=utf-8' },
+  { path: '/robots.txt', header: 'content-type', includes: 'text/plain; charset=utf-8' },
+  {
+    path: '/.well-known/security.txt',
+    header: 'content-type',
+    includes: 'text/plain; charset=utf-8',
+  },
   { path: '/index.md', header: 'link', includes: '<https://austinfalk.com/>; rel="canonical"' },
   {
     path: '/about.md',
@@ -62,6 +69,22 @@ const headerChecks: { path: string; header: string; includes: string }[] = [
     includes: '<https://austinfalk.com/about>; rel="canonical"',
   },
 ];
+
+// Every header in the catch-all `/*` block of public/_headers, checked for its
+// exact value on each kind of response, so the test can't drift from the file.
+const sitewideHeaders = (() => {
+  const lines = readFileSync(new URL('../public/_headers', import.meta.url), 'utf8').split('\n');
+  const start = lines.indexOf('/*');
+  const headers: [string, string][] = [];
+  for (const line of lines.slice(start + 1)) {
+    if (!line.trim()) break;
+    const match = line.match(/^\s+([\w-]+):\s*(.+)$/);
+    if (match) headers.push([match[1].toLowerCase(), match[2]]);
+  }
+  if (start === -1 || !headers.length) throw new Error('No `/*` block in public/_headers');
+  return headers;
+})();
+const sitewidePaths = ['/', '/about', '/about.md', '/llms.txt', '/does-not-exist', '/about/'];
 
 let base = process.argv[2];
 let server: ReturnType<typeof Bun.spawn> | undefined;
@@ -76,18 +99,32 @@ if (!base) {
       stderr: 'ignore',
     },
   );
-  for (let i = 0; i < 120; i++) {
+  // Stop wrangler even if a check throws.
+  process.on('exit', () => server?.kill());
+  let started = false;
+  for (let i = 0; i < 120 && !started; i++) {
     try {
       await fetch(base, { redirect: 'manual' });
-      break;
+      started = true;
     } catch {
       await Bun.sleep(250);
     }
+  }
+  if (!started) {
+    console.error(
+      `wrangler dev didn't start on ${base} within 30 s (run \`bun run build\` first?)`,
+    );
+    process.exit(1);
   }
 }
 
 let failures = 0;
 const origin = new URL(base).origin;
+// Worker Previews (non-main branches) answer a missing URL with Cloudflare's
+// plain "Not found", without the designed page or public/_headers: a platform
+// limitation, so the 404 checks are skipped there.
+const host = new URL(base).hostname;
+const branchPreview = host.endsWith('.workers.dev') && host.split('.')[0] !== 'austinfalk-com';
 
 for (const c of cases) {
   const res = await fetch(base + c.path, { redirect: 'manual' });
@@ -111,12 +148,23 @@ for (const h of headerChecks) {
   console.log(`${ok ? 'ok  ' : 'FAIL'} ${h.path} ${h.header}: ${value || '(missing)'}`);
 }
 
-// A missing URL serves the designed 404 page, not just the status. Worker
-// Previews (non-main branches) serve Cloudflare's plain "Not found" instead,
-// a platform limitation, so the check is skipped there.
+for (const path of sitewidePaths) {
+  if (branchPreview && path === '/does-not-exist') {
+    console.log(`ok   ${path}: site-wide headers skipped (Worker Preview)`);
+    continue;
+  }
+  const res = await fetch(base + path, { redirect: 'manual' });
+  const wrong = sitewideHeaders.filter(([name, value]) => res.headers.get(name) !== value);
+  if (wrong.length) failures++;
+  console.log(
+    `${wrong.length ? 'FAIL' : 'ok  '} ${path} ${res.status}: ${sitewideHeaders.length} site-wide headers` +
+      wrong.map(([name]) => `\n       ${name}: ${res.headers.get(name) ?? '(missing)'}`).join(''),
+  );
+}
+
+// A missing URL serves the designed 404 page, not just the status (skipped on
+// branch previews; see branchPreview).
 {
-  const host = new URL(base).hostname;
-  const branchPreview = host.endsWith('.workers.dev') && host.split('.')[0] !== 'austinfalk-com';
   const body = await (await fetch(base + '/does-not-exist', { redirect: 'manual' })).text();
   const ok = branchPreview || body.includes('<title>Not found');
   if (!ok) failures++;
@@ -168,6 +216,5 @@ if (new URL(base).hostname === 'austinfalk.com') {
   );
 }
 
-server?.kill();
 console.log(failures ? `\n${failures} check(s) failed` : '\nAll checks passed');
 process.exit(failures ? 1 : 0);

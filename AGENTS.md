@@ -27,12 +27,15 @@ missing, ask; don't recreate it from memory.
 | `bun run check`                                 | Type-check Astro, TS and TSX files                                                                  |
 | `bun run format`                                | Prettier (Astro + Tailwind class sorting)                                                           |
 | `bun run test:redirects [url]`                  | Check redirects, status codes and headers; starts `wrangler dev` on `dist/` when no URL is given    |
+| `bun run check:public`                          | Fail on photo metadata, account/zone IDs or unpublished emails in tracked files                     |
 | `bun run shot <url> <out.png> [w] [h] [--full]` | Screenshot a page in headless Chromium                                                              |
 | `bun run og`                                    | Re-render the link-preview card (after `bun run build`) when the photo, name or title changes       |
 | `bun run deploy`                                | Manual build and deploy, for emergencies only (**ask Austin first**)                                |
 
-Before calling a change done: `bun run check`, `bun run build`, and
-`bun run test:redirects` if you touched routes, redirects, headers or config.
+Before calling a change done: `bun run format:check`, `bun run check`,
+`bun run build`, `bun run check:public` if you added images or files with
+contact details, and `bun run test:redirects` if you touched routes,
+redirects, headers or config. CI runs all of them, plus `bun audit`.
 For visual changes, screenshot desktop (1440×900) and mobile (390×844).
 
 ## Layout of the code

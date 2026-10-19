@@ -81,8 +81,8 @@ export const person = {
 
 /**
  * Selected credits for structured data, in the same order as the list in
- * src/content/about.md (the build fails if a title or character there goes
- * missing). Characters and IDs match IMDb and TMDB.
+ * src/content/about.md (the build fails if a title there goes missing or a
+ * character the copy names differs). Characters and IDs match IMDb and TMDB.
  */
 export const credits: {
   title: string;
