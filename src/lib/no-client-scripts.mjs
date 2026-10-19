@@ -6,12 +6,18 @@
  */
 import { readFile } from 'node:fs/promises';
 
-/** Ways a page can run JavaScript, each with the reason it's reported. */
+/** @type {{ pattern: RegExp; reason: string }[]} */
 const patterns = [
-  [/<script\b(?![^>]*\btype=["']?application\/ld\+json["']?[\s>])[^>]*>/gi, 'script tag'],
-  [/<link\b[^>]*\brel=["']?modulepreload\b/gi, 'modulepreload link'],
-  [/<[a-z][^>]*\son[a-z]+\s*=/gi, 'event handler attribute'],
-  [/\b(?:href|src|action|formaction)\s*=\s*["']?\s*javascript:/gi, 'javascript: URL'],
+  {
+    pattern: /<script\b(?![^>]*\btype=["']?application\/ld\+json["']?[\s>])[^>]*>/i,
+    reason: 'script tag',
+  },
+  { pattern: /<link\b[^>]*\brel=["']?modulepreload\b/i, reason: 'modulepreload link' },
+  { pattern: /<[a-z][^>]*\son[a-z]+\s*=/i, reason: 'event handler attribute' },
+  {
+    pattern: /\b(?:href|src|action|formaction)\s*=\s*["']?\s*javascript:/i,
+    reason: 'javascript: URL',
+  },
 ];
 
 /**
@@ -19,7 +25,7 @@ const patterns = [
  * @returns {string[]} what was found, empty if the page runs no JavaScript
  */
 export const clientScriptsIn = (html) =>
-  patterns.filter(([pattern]) => html.match(pattern)).map(([, reason]) => String(reason));
+  patterns.filter(({ pattern }) => pattern.test(html)).map(({ reason }) => reason);
 
 /** @type {import('astro').AstroIntegration} */
 export const noClientScripts = {

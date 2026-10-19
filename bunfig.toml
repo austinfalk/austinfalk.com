@@ -1,4 +1,5 @@
 [install]
 # Skip npm releases younger than three days (in seconds). Most malicious
-# versions are found and pulled within that window.
+# versions are found and pulled within that window. Keep it under Dependabot's
+# 5-day cooldown, or bun can't install the versions Dependabot proposes.
 minimumReleaseAge = 259200
