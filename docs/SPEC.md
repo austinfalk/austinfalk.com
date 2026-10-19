@@ -106,10 +106,10 @@ Visual rules (palette, type scale, layout, do's and don'ts) live in
 
 - Accurate titles and descriptions written for people.
 - Person JSON-LD with `sameAs` for every social profile, IMDb, Wikidata
-  (`Q20760336`), TMDB and the Czech Wikipedia article; `jobTitle`,
-  `knowsAbout`, union memberships, profile handles (`alternateName`) and
-  approximate follower counts per platform. No birth date, nationality or
-  location, on purpose.
+  (`Q20760336`) and TMDB (not the Czech Wikipedia article, which has wrong
+  facts); `jobTitle`, `knowsAbout`, union memberships, profile handles
+  (`alternateName`) and approximate follower counts per platform. No birth
+  date, nationality or location, on purpose.
 - The biography is a `ProfilePage` whose selected credits are also
   `TVSeries`/`Movie` nodes with IMDb and TMDB links and Austin's role; the
   build fails if they drift from the copy.
