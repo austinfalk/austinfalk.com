@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test:redirects": "bun scripts/check-redirects.ts",
+    "check:public": "bun scripts/check-public.ts",
     "shot": "bun scripts/screenshot.ts",
     "og": "bun scripts/og-card.ts",
     "deploy": "astro build && wrangler deploy",

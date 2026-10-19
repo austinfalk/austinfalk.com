@@ -1,0 +1,4 @@
+[install]
+# Skip npm releases younger than three days (in seconds). Most malicious
+# versions are found and pulled within that window.
+minimumReleaseAge = 259200
