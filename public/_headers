@@ -7,6 +7,14 @@
 /_astro/*
   Cache-Control: public, max-age=31556952, immutable
 
+# Static files get their type from the extension, without a charset, and
+# clients then decode these UTF-8 files as Latin-1 (an en dash becomes "â€“").
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+
+/*.txt
+  Content-Type: text/plain; charset=utf-8
+
 # The Markdown copies are for agents and LLMs; the HTML pages are canonical,
 # so search engines don't index the copies as duplicates.
 /index.md

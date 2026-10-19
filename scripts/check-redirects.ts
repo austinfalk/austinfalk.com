@@ -8,7 +8,7 @@
  * Run `bun run build` first when testing locally. Exits non-zero on failure.
  */
 
-export {};
+import { readFileSync } from 'node:fs';
 
 type Case = { path: string; status: number; location?: string };
 
@@ -48,13 +48,16 @@ const cases: Case[] = [
 ];
 
 const headerChecks: { path: string; header: string; includes: string }[] = [
-  { path: '/', header: 'content-security-policy', includes: "default-src 'self'" },
-  { path: '/', header: 'x-content-type-options', includes: 'nosniff' },
-  { path: '/', header: 'cross-origin-opener-policy', includes: 'same-origin' },
   { path: '/', header: 'cache-control', includes: 'must-revalidate' },
-  { path: '/index.md', header: 'content-type', includes: 'text/markdown' },
-  { path: '/llms.txt', header: 'content-type', includes: 'text/plain' },
-  { path: '/.well-known/security.txt', header: 'content-type', includes: 'text/plain' },
+  { path: '/index.md', header: 'content-type', includes: 'text/markdown; charset=utf-8' },
+  { path: '/about.md', header: 'content-type', includes: 'text/markdown; charset=utf-8' },
+  { path: '/llms.txt', header: 'content-type', includes: 'text/plain; charset=utf-8' },
+  { path: '/robots.txt', header: 'content-type', includes: 'text/plain; charset=utf-8' },
+  {
+    path: '/.well-known/security.txt',
+    header: 'content-type',
+    includes: 'text/plain; charset=utf-8',
+  },
   { path: '/index.md', header: 'link', includes: '<https://austinfalk.com/>; rel="canonical"' },
   {
     path: '/about.md',
@@ -62,6 +65,22 @@ const headerChecks: { path: string; header: string; includes: string }[] = [
     includes: '<https://austinfalk.com/about>; rel="canonical"',
   },
 ];
+
+// Every header in the catch-all `/*` block of public/_headers, checked for its
+// exact value on each kind of response, so the test can't drift from the file.
+const sitewideHeaders = (() => {
+  const lines = readFileSync(new URL('../public/_headers', import.meta.url), 'utf8').split('\n');
+  const start = lines.indexOf('/*');
+  const headers: [string, string][] = [];
+  for (const line of lines.slice(start + 1)) {
+    if (!line.trim()) break;
+    const match = line.match(/^\s+([\w-]+):\s*(.+)$/);
+    if (match) headers.push([match[1].toLowerCase(), match[2]]);
+  }
+  if (start === -1 || !headers.length) throw new Error('No `/*` block in public/_headers');
+  return headers;
+})();
+const sitewidePaths = ['/', '/about', '/about.md', '/llms.txt', '/does-not-exist', '/about/'];
 
 let base = process.argv[2];
 let server: ReturnType<typeof Bun.spawn> | undefined;
@@ -109,6 +128,16 @@ for (const h of headerChecks) {
   const ok = value.includes(h.includes);
   if (!ok) failures++;
   console.log(`${ok ? 'ok  ' : 'FAIL'} ${h.path} ${h.header}: ${value || '(missing)'}`);
+}
+
+for (const path of sitewidePaths) {
+  const res = await fetch(base + path, { redirect: 'manual' });
+  const wrong = sitewideHeaders.filter(([name, value]) => res.headers.get(name) !== value);
+  if (wrong.length) failures++;
+  console.log(
+    `${wrong.length ? 'FAIL' : 'ok  '} ${path} ${res.status}: ${sitewideHeaders.length} site-wide headers` +
+      wrong.map(([name]) => `\n       ${name}: ${res.headers.get(name) ?? '(missing)'}`).join(''),
+  );
 }
 
 // A missing URL serves the designed 404 page, not just the status. Worker
