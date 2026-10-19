@@ -70,8 +70,6 @@ const headerChecks: { path: string; header: string; includes: string }[] = [
   },
 ];
 
-// Every header in the catch-all `/*` block of public/_headers, checked for its
-// exact value on each kind of response, so the test can't drift from the file.
 const sitewideHeaders = (() => {
   const lines = readFileSync(new URL('../public/_headers', import.meta.url), 'utf8').split('\n');
   const start = lines.indexOf('/*');
@@ -99,7 +97,6 @@ if (!base) {
       stderr: 'ignore',
     },
   );
-  // Stop wrangler even if a check throws.
   process.on('exit', () => server?.kill());
   let started = false;
   for (let i = 0; i < 120 && !started; i++) {
@@ -162,8 +159,6 @@ for (const path of sitewidePaths) {
   );
 }
 
-// A missing URL serves the designed 404 page, not just the status (skipped on
-// branch previews; see branchPreview).
 {
   const body = await (await fetch(base + '/does-not-exist', { redirect: 'manual' })).text();
   const ok = branchPreview || body.includes('<title>Not found');

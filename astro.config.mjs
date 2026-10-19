@@ -47,7 +47,6 @@ export default defineConfig({
   integrations: [
     // React renders shadcn components to static HTML at build time only.
     react(),
-    // Fails the build if any page can run JavaScript (src/lib/no-client-scripts.mjs).
     noClientScripts,
     sitemap({
       namespaces: { news: false, video: false, image: false, xhtml: false },

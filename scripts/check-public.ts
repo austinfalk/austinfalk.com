@@ -24,7 +24,7 @@ function jpegMetadata(buf: Buffer) {
   let i = 2;
   while (i + 4 <= buf.length && buf[i] === 0xff) {
     const marker = buf[i + 1];
-    if (marker === 0xda || marker === 0xd9) break; // image data starts
+    if (marker === 0xda || marker === 0xd9) break; // start of scan or end of image
     const length = buf.readUInt16BE(i + 2);
     const header = buf.subarray(i + 4, i + 4 + 32).toString('latin1');
     if (marker === 0xe1 && header.startsWith('Exif\0')) found.push('EXIF');
@@ -67,7 +67,8 @@ for (const file of files) {
     problems.push(`${file}: no metadata check for .${ext}; use JPEG or PNG, or extend this script`);
     continue;
   }
-  if (buf.includes(0)) continue; // other binary files (favicon.ico)
+  const isBinary = buf.includes(0);
+  if (isBinary) continue;
 
   const lines = buf.toString('utf8').split('\n');
   lines.forEach((line, n) => {

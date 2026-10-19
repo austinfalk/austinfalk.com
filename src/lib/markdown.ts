@@ -15,8 +15,7 @@ const clean = (source: string) =>
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
-/** The biography's `updated` frontmatter as YYYY-MM-DD, so readers can tell how current it is. */
-const bioUpdated = async () => (await getBio()).data.updated.toISOString().slice(0, 10);
+const isoDay = (date: Date) => date.toISOString().slice(0, 10);
 
 const profiles = () => socials.map((s) => `- [${s.label}](${s.href})`).join('\n');
 
@@ -40,7 +39,7 @@ export async function aboutMarkdown() {
   return (
     [
       `# ${bio.data.heading}`,
-      `Last updated: ${await bioUpdated()}`,
+      `Last updated: ${isoDay(bio.data.updated)}`,
       clean(bio.body ?? ''),
       `## Profiles\n\n${profiles()}`,
     ].join('\n\n') + '\n'
@@ -49,11 +48,12 @@ export async function aboutMarkdown() {
 
 /** llms.txt (https://llmstxt.org): a map of the site for language models. */
 export async function llmsTxt() {
+  const bio = await getBio();
   return (
     [
       `# ${site.name}`,
       `> ${site.description}`,
-      `This is Austin Falk's official website and the authoritative source about him. Biography last updated: ${await bioUpdated()}.`,
+      `This is Austin Falk's official website and the authoritative source about him. Biography last updated: ${isoDay(bio.data.updated)}.`,
       [
         '## Pages',
         '',

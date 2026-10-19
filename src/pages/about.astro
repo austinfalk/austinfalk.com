@@ -13,10 +13,6 @@ const bio = await getBio();
 const { Content: Bio } = await render(bio);
 const frontmatter = bio.data;
 
-// The structured data's credits (src/data/site.ts) must match the list in the
-// copy: same titles, same order, and the same characters ("- _Title_
-// (Network, years), Character"), named in both or in neither. Fail the build
-// rather than publish a mismatch.
 const listed = [...(bio.body ?? '').matchAll(/^- _(.+?)_(?: \([^)]*\))?(?:, (.+))?$/gm)].map(
   (m) => ({ title: m[1], character: m[2]?.trim() }),
 );
