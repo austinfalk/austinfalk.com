@@ -72,7 +72,11 @@ export const person = {
     { name: 'UBCP/ACTRA', url: 'https://www.ubcpactra.ca' },
   ],
   /** Other authoritative records about Austin, added to `sameAs` alongside the social profiles. */
-  records: ['https://www.wikidata.org/wiki/Q20760336', 'https://www.themoviedb.org/person/1321836'],
+  records: [
+    'https://www.wikidata.org/wiki/Q20760336',
+    'https://www.themoviedb.org/person/1321836',
+    'https://cs.wikipedia.org/wiki/Austin_Falk',
+  ],
 };
 
 /**
