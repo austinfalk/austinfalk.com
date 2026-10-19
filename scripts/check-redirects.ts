@@ -99,13 +99,22 @@ if (!base) {
       stderr: 'ignore',
     },
   );
-  for (let i = 0; i < 120; i++) {
+  // Stop wrangler even if a check throws.
+  process.on('exit', () => server?.kill());
+  let started = false;
+  for (let i = 0; i < 120 && !started; i++) {
     try {
       await fetch(base, { redirect: 'manual' });
-      break;
+      started = true;
     } catch {
       await Bun.sleep(250);
     }
+  }
+  if (!started) {
+    console.error(
+      `wrangler dev didn't start on ${base} within 30 s (run \`bun run build\` first?)`,
+    );
+    process.exit(1);
   }
 }
 
@@ -201,6 +210,5 @@ if (new URL(base).hostname === 'austinfalk.com') {
   );
 }
 
-server?.kill();
 console.log(failures ? `\n${failures} check(s) failed` : '\nAll checks passed');
 process.exit(failures ? 1 : 0);
