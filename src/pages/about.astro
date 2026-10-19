@@ -3,19 +3,35 @@
  * Biography. The long-form, factual page: the one search engines send
  * "who is" queries to and the one LLMs are most likely to quote.
  */
-import { Content as Bio, frontmatter } from '@/content/about.md';
-import bioSource from '@/content/about.md?raw';
+import { render } from 'astro:content';
 import Prose from '@/components/Prose.astro';
 import SplitLayout from '@/layouts/SplitLayout.astro';
 import { credits, site } from '@/data/site';
+import { getBio } from '@/lib/content';
+
+const bio = await getBio();
+const { Content: Bio } = await render(bio);
+const frontmatter = bio.data;
 
 // The structured data's credits (src/data/site.ts) must match the list in the
-// copy: same titles, same order. Fail the build rather than publish a mismatch.
-const listed = [...bioSource.matchAll(/^- _(.+?)_/gm)].map((m) => m[1]);
-const expected = credits.map((c) => c.title);
-if (expected.some((title, i) => listed[i] !== title)) {
+// copy: same titles, same order, and the same character wherever the copy
+// names one ("- _Title_ (Network, years), Character"). Fail the build rather
+// than publish a mismatch.
+const listed = [...(bio.body ?? '').matchAll(/^- _(.+?)_(?: \([^)]*\))?(?:, (.+))?$/gm)].map(
+  (m) => ({ title: m[1], character: m[2]?.trim() }),
+);
+const show = (list: { title: string; character?: string }[]) =>
+  list.map((c) => (c.character ? `${c.title} (${c.character})` : c.title)).join(', ');
+if (
+  listed.length !== credits.length ||
+  credits.some(
+    (c, i) =>
+      listed[i].title !== c.title ||
+      (listed[i].character !== undefined && listed[i].character !== c.character),
+  )
+) {
   throw new Error(
-    `Credits in about.md (${listed.join(', ')}) don't match src/data/site.ts (${expected.join(', ')}).`,
+    `Credits in about.md (${show(listed)}) don't match src/data/site.ts (${show(credits)}).`,
   );
 }
 ---
@@ -26,8 +42,8 @@ if (expected.some((title, i) => listed[i] !== title)) {
   shareDescription={frontmatter.shareDescription}
   kind="profile"
   markdown="/about.md"
-  created={frontmatter.created && new Date(frontmatter.created).toISOString()}
-  modified={frontmatter.updated && new Date(frontmatter.updated).toISOString()}
+  created={frontmatter.created.toISOString()}
+  modified={frontmatter.updated.toISOString()}
 >
   <header class="flex flex-col gap-[clamp(1.5rem,2.5vw,3rem)] pt-12 md:pt-[var(--gutter)]">
     <a

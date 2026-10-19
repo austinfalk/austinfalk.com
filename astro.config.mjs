@@ -3,10 +3,10 @@ import { defineConfig, fontProviders } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { readFileSync } from 'node:fs';
-import { readFile } from 'node:fs/promises';
 import tailwindcss from '@tailwindcss/vite';
 import { satteri } from '@astrojs/markdown-satteri';
 import { headingAnchors } from './src/lib/heading-anchors.mjs';
+import { noClientScripts } from './src/lib/no-client-scripts.mjs';
 
 // The biography's last real content change (its `updated` frontmatter), used
 // as its sitemap lastmod. The home page gets none: a build date would claim it
@@ -14,29 +14,6 @@ import { headingAnchors } from './src/lib/heading-anchors.mjs';
 const aboutUpdated = readFileSync('./src/content/about.md', 'utf8').match(
   /^updated:\s*(\d{4}-\d{2}-\d{2})/m,
 )?.[1];
-
-// The site ships no client-side JavaScript (JSON-LD blocks aside). Fails the
-// build, and so the deploy, if any page loads a script.
-/** @type {import('astro').AstroIntegration} */
-const noClientScripts = {
-  name: 'no-client-scripts',
-  hooks: {
-    'astro:build:done': async ({ dir, pages }) => {
-      /** @type {string[]} */
-      const offenders = [];
-      for (const { pathname } of pages) {
-        const file = new URL(`${pathname.replace(/\/$/, '') || 'index'}.html`, dir);
-        const html = await readFile(file, 'utf8');
-        const scripts = html.match(/<script\b[^>]*>/g) ?? [];
-        if (scripts.some((tag) => !tag.includes('application/ld+json')))
-          offenders.push(`/${pathname}`);
-      }
-      if (offenders.length) {
-        throw new Error(`Client-side scripts found on: ${offenders.join(', ')}`);
-      }
-    },
-  },
-};
 
 // https://astro.build/config
 export default defineConfig({
@@ -70,6 +47,7 @@ export default defineConfig({
   integrations: [
     // React renders shadcn components to static HTML at build time only.
     react(),
+    // Fails the build if any page can run JavaScript (src/lib/no-client-scripts.mjs).
     noClientScripts,
     sitemap({
       namespaces: { news: false, video: false, image: false, xhtml: false },
