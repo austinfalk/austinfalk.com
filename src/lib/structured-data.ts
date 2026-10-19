@@ -113,7 +113,7 @@ function creditNode(c: (typeof credits)[number]) {
       '@type': 'PerformanceRole',
       [role]: { '@id': personId },
       roleName: 'Actor',
-      characterName: c.character,
+      ...(c.character ? { characterName: c.character } : {}),
       startDate: String(start),
       endDate: String(end),
     },

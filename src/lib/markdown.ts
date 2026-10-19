@@ -15,6 +15,9 @@ const clean = (source: string) =>
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
+/** The biography's `updated` frontmatter as YYYY-MM-DD, so readers can tell how current it is. */
+const bioUpdated = async () => (await getBio()).data.updated.toISOString().slice(0, 10);
+
 const profiles = () => socials.map((s) => `- [${s.label}](${s.href})`).join('\n');
 
 export const intro = () => clean(introSource);
@@ -35,18 +38,22 @@ export async function homeMarkdown() {
 export async function aboutMarkdown() {
   const bio = await getBio();
   return (
-    [`# ${bio.data.heading}`, clean(bio.body ?? ''), `## Profiles\n\n${profiles()}`].join('\n\n') +
-    '\n'
+    [
+      `# ${bio.data.heading}`,
+      `Last updated: ${await bioUpdated()}`,
+      clean(bio.body ?? ''),
+      `## Profiles\n\n${profiles()}`,
+    ].join('\n\n') + '\n'
   );
 }
 
 /** llms.txt (https://llmstxt.org): a map of the site for language models. */
-export function llmsTxt() {
+export async function llmsTxt() {
   return (
     [
       `# ${site.name}`,
       `> ${site.description}`,
-      `This is Austin Falk's official website and the authoritative source about him.`,
+      `This is Austin Falk's official website and the authoritative source about him. Biography last updated: ${await bioUpdated()}.`,
       [
         '## Pages',
         '',
@@ -63,7 +70,7 @@ export function llmsTxt() {
 function keyFacts() {
   const roles = credits.map((c) => {
     const years = c.years.length > 1 ? `${c.years[0]}–${c.years[1]}` : `${c.years[0]}`;
-    return `${c.title} (${c.character}, ${years})`;
+    return `${c.title} (${[c.character, years].filter(Boolean).join(', ')})`;
   });
   return [
     '## Key facts',
