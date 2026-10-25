@@ -55,6 +55,20 @@ Cloudflare Workers Builds deploys `main` automatically. Every other branch gets
 a Preview URL (posted on its pull request). Ship changes by branch → PR →
 merge, not with `bun run deploy`.
 
+## Cloud sessions
+
+A fresh public clone is enough for day-to-day work. After `bun install`, you can
+run the same checks CI runs (`check:public`, `format:check`, `check`, `build`,
+`test:redirects`) without `.env` or `docs/private/`.
+
+`docs/private/` and `.env` will be missing. Do not recreate them. Ask Austin
+before changing URLs, titles, or redirects (needs the search baseline), before
+any DNS or Cloudflare dashboard change (needs the launch plan), and before
+deploy. See `.env.example` for the account-id variable name only.
+
+`bun run shot` and the verify-site skill need `chromium` on `PATH`. If commit
+signing fails, ask Austin rather than disabling signing.
+
 ## This repo is public
 
 Never commit: account or zone IDs, DNS or email setup, analytics or Search

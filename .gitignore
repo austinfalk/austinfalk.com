@@ -14,6 +14,7 @@ yarn-error.log*
 # environment (wrangler reads CLOUDFLARE_ACCOUNT_ID from .env)
 .env
 .env.*
+!.env.example
 .dev.vars
 .dev.vars.*
 
