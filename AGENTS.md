@@ -28,7 +28,7 @@ missing, ask; don't recreate it from memory.
 | `bun run format`                                | Prettier (Astro + Tailwind class sorting)                                                           |
 | `bun run test:redirects [url]`                  | Check redirects, status codes and headers; starts `wrangler dev` on `dist/` when no URL is given    |
 | `bun run check:public`                          | Fail on photo metadata, account/zone IDs or unpublished emails in tracked files                     |
-| `bun run check:install`                         | Fail if the release-age gate, the exact `cf` pin, or the single markdown processor copy drifts      |
+| `bun run check:install`                         | Fail if the release-age gate or the single markdown processor copy drifts                           |
 | `bun run shot <url> <out.png> [w] [h] [--full]` | Screenshot a page in headless Chromium                                                              |
 | `bun run og`                                    | Re-render the link-preview card (after `bun run build`) when the photo, name or title changes       |
 | `bun run deploy`                                | Manual build and deploy, for emergencies only (**ask Austin first**)                                |
@@ -109,9 +109,9 @@ belong in `docs/private/`.
 - Deploying, pushing to `main`, or merging into `main`. Pushing your own
   `build/*` branch is fine.
 - Any change in the Cloudflare dashboard or API. Reading is fine (Wrangler or
-  the `cf` CLI, with `CLOUDFLARE_ACCOUNT_ID` from `.env`). In a cloud session,
-  run the project's pinned copy with `bunx cf` rather than installing `cf`
-  globally. Don't run `cf init`; it writes `cloudflare.config.ts`. Never touch
+  the `cf` CLI, with `CLOUDFLARE_ACCOUNT_ID` from `.env`). `cf` is Austin's
+  global install, not a project dependency; the project's own scripts use
+  Wrangler. Don't run `cf init`; it writes `cloudflare.config.ts`. Never touch
   the DNS records on the do-not-touch list in `docs/private/PLAN.md`.
 - Bumping Bun. Production builds take Bun from the Workers Builds variable
   `BUN_VERSION`, not from `package.json`, so Austin changes that variable
