@@ -33,9 +33,9 @@ missing, ask; don't recreate it from memory.
 | `bun run og`                                    | Re-render the link-preview card (after `bun run build`) when the photo, name or title changes       |
 | `bun run deploy`                                | Manual build and deploy, for emergencies only (**ask Austin first**)                                |
 
-Before calling a change done: `bun run check:install`, `bun run format:check`,
-`bun run check`, `bun run build`, `bun run check:public` if you added images or files with
-contact details, and `bun run test:redirects` if you touched routes,
+Before calling a change done: `bun run check:install`,
+`bun run format:check`, `bun run check`, `bun run build`, `bun run check:public`
+if you added images or files with contact details, and `bun run test:redirects` if you touched routes,
 redirects, headers or config. CI runs all of them, plus `bun audit`.
 For visual changes, screenshot desktop (1440×900) and mobile (390×844).
 
@@ -109,11 +109,13 @@ belong in `docs/private/`.
 - Deploying, pushing to `main`, or merging into `main`. Pushing your own
   `build/*` branch is fine.
 - Any change in the Cloudflare dashboard or API. Reading is fine (Wrangler or
-  the `cf` CLI, with `CLOUDFLARE_ACCOUNT_ID` from `.env`). A Cloud Agent gets
-  the CLI from `bun install`, then `bunx cf`. Do not install `cf` globally.
-  Do not run `cf init`. That command writes `cloudflare.config.ts`. Never touch
-  the DNS
-  records on the do-not-touch list in `docs/private/PLAN.md`.
+  the `cf` CLI, with `CLOUDFLARE_ACCOUNT_ID` from `.env`). In a cloud session,
+  run the project's pinned copy with `bunx cf` rather than installing `cf`
+  globally. Don't run `cf init`; it writes `cloudflare.config.ts`. Never touch
+  the DNS records on the do-not-touch list in `docs/private/PLAN.md`.
+- Bumping Bun. Production builds take Bun from the Workers Builds variable
+  `BUN_VERSION`, not from `package.json`, so Austin changes that variable
+  first, then the PR changes `packageManager`.
 
 ## Git
 
