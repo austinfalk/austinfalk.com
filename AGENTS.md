@@ -28,12 +28,13 @@ missing, ask; don't recreate it from memory.
 | `bun run format`                                | Prettier (Astro + Tailwind class sorting)                                                           |
 | `bun run test:redirects [url]`                  | Check redirects, status codes and headers; starts `wrangler dev` on `dist/` when no URL is given    |
 | `bun run check:public`                          | Fail on photo metadata, account/zone IDs or unpublished emails in tracked files                     |
+| `bun run check:install`                         | Fail if the release-age gate, the exact `cf` pin, or the single markdown processor copy drifts      |
 | `bun run shot <url> <out.png> [w] [h] [--full]` | Screenshot a page in headless Chromium                                                              |
 | `bun run og`                                    | Re-render the link-preview card (after `bun run build`) when the photo, name or title changes       |
 | `bun run deploy`                                | Manual build and deploy, for emergencies only (**ask Austin first**)                                |
 
-Before calling a change done: `bun run format:check`, `bun run check`,
-`bun run build`, `bun run check:public` if you added images or files with
+Before calling a change done: `bun run check:install`, `bun run format:check`,
+`bun run check`, `bun run build`, `bun run check:public` if you added images or files with
 contact details, and `bun run test:redirects` if you touched routes,
 redirects, headers or config. CI runs all of them, plus `bun audit`.
 For visual changes, screenshot desktop (1440×900) and mobile (390×844).
@@ -58,8 +59,8 @@ merge, not with `bun run deploy`.
 ## Cloud sessions
 
 A fresh public clone is enough for day-to-day work. After `bun install`, you can
-run the same checks CI runs (`check:public`, `format:check`, `check`, `build`,
-`test:redirects`) without `.env` or `docs/private/`.
+run the same checks CI runs (`check:install`, `check:public`, `format:check`,
+`check`, `build`, `test:redirects`) without `.env` or `docs/private/`.
 
 `docs/private/` and `.env` will be missing. Do not recreate them. Ask Austin
 before changing URLs, titles, or redirects (needs the search baseline), before
@@ -108,7 +109,10 @@ belong in `docs/private/`.
 - Deploying, pushing to `main`, or merging into `main`. Pushing your own
   `build/*` branch is fine.
 - Any change in the Cloudflare dashboard or API. Reading is fine (Wrangler or
-  the `cf` CLI, with `CLOUDFLARE_ACCOUNT_ID` from `.env`). Never touch the DNS
+  the `cf` CLI, with `CLOUDFLARE_ACCOUNT_ID` from `.env`). A Cloud Agent gets
+  the CLI from `bun install`, then `bunx cf`. Do not install `cf` globally.
+  Do not run `cf init`. That command writes `cloudflare.config.ts`. Never touch
+  the DNS
   records on the do-not-touch list in `docs/private/PLAN.md`.
 
 ## Git

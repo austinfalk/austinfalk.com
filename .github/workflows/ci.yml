@@ -45,6 +45,7 @@ jobs:
           restore-keys: astro-
 
       - run: bun install --frozen-lockfile
+      - run: bun run check:install
       # GitHub's dependency graph doesn't read bun.lock, so Dependabot alerts
       # miss transitive packages. The ignored advisory is deepmerge, reached
       # only through the shadcn CLI. deepmerge 4.3.1 is still the latest publish.
