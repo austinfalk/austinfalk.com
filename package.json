@@ -13,6 +13,7 @@
     "format:check": "prettier --check .",
     "test:redirects": "bun scripts/check-redirects.ts",
     "check:public": "bun scripts/check-public.ts",
+    "check:install": "bun scripts/check-install-policy.ts",
     "shot": "bun scripts/screenshot.ts",
     "og": "bun scripts/og-card.ts",
     "deploy": "astro build && wrangler deploy",
