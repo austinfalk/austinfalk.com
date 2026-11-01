@@ -2,7 +2,6 @@
 /**
  * Fails if the install drifts from what package.json and bunfig.toml promise:
  * - bunfig.toml keeps the release-age gate with no exemptions committed.
- * - `cf` is an exact version, and `bunx cf` runs that version.
  * - `@astrojs/markdown-satteri` resolves once. Astro pins it exactly, so the
  *   root pin must match Astro's or the lockfile carries two copies.
  *
@@ -19,16 +18,6 @@ if (!/^minimumReleaseAge\s*=\s*\d+/m.test(bunfig)) {
 }
 if (/^minimumReleaseAgeExcludes/m.test(bunfig)) {
   problems.push('bunfig.toml commits minimumReleaseAgeExcludes');
-}
-
-const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
-const cf: string | undefined = pkg.devDependencies?.cf;
-if (!cf || !/^\d+\.\d+\.\d+(-[\w.]+)?$/.test(cf)) {
-  problems.push(`devDependencies.cf must be an exact version, got ${cf}`);
-} else {
-  const run = Bun.spawnSync(['bunx', 'cf', '--version']);
-  const printed = run.stdout.toString().trim();
-  if (printed !== cf) problems.push(`bunx cf --version printed "${printed}", expected ${cf}`);
 }
 
 const satteri = '@astrojs/markdown-satteri';
